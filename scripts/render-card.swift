@@ -16,11 +16,13 @@ struct RenderCard {
                                              vin: "WF0SAMPLE0000000", name: "Focus ST", fetchedAt: now)
 
         let logo = NSImage(contentsOf: URL(fileURLWithPath: args[5])).map { Image(nsImage: $0) }
-        let card = VehicleCardView(snapshot: snapshot, carImage: nil, now: now)
+        let car = args.count > 6 && args[6] != "-" ? NSImage(contentsOf: URL(fileURLWithPath: args[6])).map { Image(nsImage: $0) } : nil
+        let size = args.count > 7 ? args[7].split(separator: "x").compactMap { Double($0) } : [364, 170]
+        let card = VehicleCardView(snapshot: snapshot, carImage: car, now: now)
             .environment(\.locale, locale)
             .environment(\.fordLogo, logo)
             .padding(16)
-            .frame(width: 364, height: 170)
+            .frame(width: size[0], height: size[1])
             .background(CardStyle.background)
 
         let renderer = ImageRenderer(content: card)

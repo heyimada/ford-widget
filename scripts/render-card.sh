@@ -12,4 +12,5 @@ swiftc -parse-as-library -swift-version 6 -o "$root/build/render-card" \
   "$root/Shared/VehicleCardView.swift" \
   "$root/scripts/render-card.swift"
 
-"$root/build/render-card" "$root/Fixtures/telemetry-sample.json" "$root/build/card.png" "$now" "${1:-en_DE}" "$root/Shared/Assets.xcassets/FordLogo.imageset/FordLogo.svg"
+# args: [locale] [car image or -] [WxH in pt] [output png]
+"$root/build/render-card" "$root/Fixtures/telemetry-sample.json" "${4:-$root/build/card.png}" "$now" "${1:-en_DE}" "$root/Shared/Assets.xcassets/FordLogo.imageset/FordLogo.svg" "${2:--}" "${3:-364x170}"
