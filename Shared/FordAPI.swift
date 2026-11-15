@@ -126,19 +126,21 @@ enum FordAPI {
         return try parseTokenResponse(data: data, status: status).accessToken
     }
 
-    static func snapshot(for session: FordSession, token: String? = nil, now: Date = Date()) async throws -> VehicleSnapshot {
+    /// `fullState` is for the app: its detail screens need metrics beyond the four the widget card shows, which
+    /// websocket frames may not carry, so the GET poll is always merged in. The widget keeps the cheaper path.
+    static func snapshot(for session: FordSession, token: String? = nil, fullState: Bool = false, now: Date = Date()) async throws -> VehicleSnapshot {
         guard let vin = session.vin else { throw FordError.noVehicle }
         let bearer: String
         if let token { bearer = token } else { bearer = try await autonomicToken(refreshToken: session.refreshToken) }
-        let metrics = try await telemetry(vin: vin, token: bearer)
+        let metrics = try await telemetry(vin: vin, token: bearer, fullState: fullState)
         return VehicleSnapshot.parse(metrics: metrics, vin: vin, name: session.vehicleName ?? "Ford", fetchedAt: now)
     }
 
     /// Websocket first, merging frames until the four displayed metrics are in or 10 s pass. The `:query` POST
     /// variant is deliberately not used: it answers 502 from Germany.
-    static func telemetry(vin: String, token: String) async throws -> [String: Any] {
+    static func telemetry(vin: String, token: String, fullState: Bool = false) async throws -> [String: Any] {
         let streamed = await streamMetrics(vin: vin, token: token)
-        if isComplete(streamed) { return streamed }
+        if isComplete(streamed) && !fullState { return streamed }
         do {
             var polled = try await pollMetrics(vin: vin, token: token)
             mergeMetrics(into: &polled, frame: ["metrics": streamed])

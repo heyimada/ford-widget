@@ -218,7 +218,7 @@ final class AppModel {
     }
 
     private func fetchSnapshot(_ session: FordSession, token: String? = nil) async throws {
-        try store(try await FordAPI.snapshot(for: session, token: token))
+        try store(try await FordAPI.snapshot(for: session, token: token, fullState: true))
     }
 
     /// Main-actor isolated, so a sign-out cannot land between the cancellation check and the writes.

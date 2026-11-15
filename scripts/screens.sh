@@ -66,8 +66,33 @@ pose() {
   return 1
 }
 
+rotated=0
+rotate() {
+  local try
+  for try in 1 2 3 4; do
+    if "$duo" rotate "$1" > /dev/null; then
+      rotated=$(( (rotated + $1) % 4 ))
+      return 0
+    fi
+    sleep 3
+  done
+  echo "FAIL: could not rotate the Duo" >&2
+  return 1
+}
+
 # SCREENS_ONLY=phone|duo limits the run to one device.
 only="${SCREENS_ONLY:-both}"
+
+# Whatever happens, leave both simulators light and the Duo closed in its start orientation.
+cleanup() {
+  xcrun simctl ui "$phone" appearance light > /dev/null 2>&1 || true
+  xcrun simctl ui "$duo_udid" appearance light > /dev/null 2>&1 || true
+  if [ "$only" != phone ] && [ -x "$duo" ]; then
+    if [ "$rotated" -ne 0 ]; then "$duo" rotate $(( 4 - rotated )) > /dev/null 2>&1 || true; fi
+    "$duo" pose closed > /dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
 
 echo "== iPhone 18 Pro"
 if [ "$only" = duo ]; then echo "skipped (SCREENS_ONLY=duo)"; else
@@ -101,9 +126,9 @@ else
       sleep 2
       duo_shot "duo-$tab-$pose"
     done
-    "$duo" rotate 1
+    rotate 1
     duo_shot "duo-$tab-open-rotate"
-    "$duo" rotate 3
+    rotate 3
     pose closed
     echo "  duo-$tab-*"
   done
