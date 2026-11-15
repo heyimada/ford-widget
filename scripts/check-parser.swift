@@ -252,6 +252,9 @@ func checkCommands() {
                         command: .lock, commandId: "ID"), .failed("Failed"), "C10: plain key wins over the Command suffix")
     expect(commandPhase(states: ["commands": ["lockCommand": ["commandId": "ID", "value": ["toState": "success"]]]],
                         command: .lock, commandId: "ID"), .succeeded, "C10: states.commands is flattened like the integration does")
+    expect(commandPhase(states: ["lockCommand": ["commandId": "ID", "value": ["toState": "request_queued"]],
+                                 "commands": ["lockCommand": ["commandId": "ID", "value": ["toState": "success"]]]],
+                        command: .lock, commandId: "ID"), .succeeded, "C10: a nested commands entry overwrites the root one")
 
     // 11.
     func id(_ body: String) -> String {
@@ -260,6 +263,7 @@ func checkCommands() {
     expect(id(#"{"id":"A","commandId":"B"}"#), "A", "C11: id first")
     expect(id(#"{"commandId":"B","correlationId":"C"}"#), "B", "C11: commandId second")
     expect(id(#"{"correlationId":"C"}"#), "C", "C11: correlationId third")
+    expect(id(#"{"id":12345}"#), "12345", "C11: a numeric id is accepted")
     expect(id(#"{"other":"X"}"#), "error", "C11: none -> error")
     expect(id("[]"), "error", "C11: non-object -> error")
     expect(id("not json"), "error", "C11: garbage -> error")

@@ -70,7 +70,11 @@ func parseGarage(_ data: Data) throws -> VehicleProfile {
 /// The command endpoint answers with the id the car's later state reports carry.
 func parseCommandId(_ data: Data) throws -> String {
     let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
-    guard let id = ["id", "commandId", "correlationId"].lazy.compactMap({ nonEmpty(object?[$0]) }).first else {
+    let id = ["id", "commandId", "correlationId"].lazy.compactMap { key -> String? in
+        if let number = object?[key] as? NSNumber { return number.stringValue }
+        return nonEmpty(object?[key])
+    }.first
+    guard let id else {
         throw FordError.decoding("no command id in the response")
     }
     return id
@@ -78,9 +82,9 @@ func parseCommandId(_ data: Data) throws -> String {
 
 /// Where our command stands in the telemetry `states`. A state entry with another commandId is an older command's.
 func commandPhase(states: [String: Any], command: CarCommand, commandId: String) -> CommandPhase {
-    // The integration flattens a nested `commands` object to the root; the plain key wins over the "Command" suffix.
+    // The integration flattens a nested `commands` object to the root; a nested entry overwrites a root one, as there.
     var all = states
-    if let nested = states["commands"] as? [String: Any] { all.merge(nested) { root, _ in root } }
+    if let nested = states["commands"] as? [String: Any] { all.merge(nested) { _, nested in nested } }
     guard let state = (all[command.rawValue] ?? all[command.rawValue + "Command"]) as? [String: Any],
           state["commandId"] as? String == commandId,
           let value = state["value"] as? [String: Any],
