@@ -1,0 +1,21 @@
+{
+  "fractionalAndPlainLatestWins": {
+    "fuelLevel": {"value": 50, "updateTime": "2025-06-30T05:34:24.902Z"},
+    "odometer": {"value": 1, "updateTime": "2025-06-13T00:05:54Z"}
+  },
+  "garbageIgnored": {
+    "fuelLevel": {"value": 50, "updateTime": "garbage"},
+    "odometer": {"value": 1, "updateTime": "2025-06-13T00:05:54Z"}
+  },
+  "onlyGarbage": {
+    "fuelLevel": {"value": 50, "updateTime": "garbage"}
+  },
+  "lockEntryIsLatest": {
+    "fuelLevel": {"value": 50, "updateTime": "2025-06-13T00:05:54Z"},
+    "doorLockStatus": [{"value": "LOCKED", "vehicleDoor": "ALL_DOORS", "updateTime": "2025-07-01T10:00:00Z"}]
+  },
+  "otherMetricIgnored": {
+    "fuelLevel": {"value": 50, "updateTime": "2025-06-13T00:05:54Z"},
+    "ignitionStatus": {"value": "OFF", "updateTime": "2025-07-01T10:00:00Z"}
+  }
+}

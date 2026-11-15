@@ -1,0 +1,30 @@
+{
+  "fourPlusTailgateUnknown": [
+    {"value": "LOCKED", "vehicleDoor": "FRONT_LEFT"},
+    {"value": "DOUBLE_LOCKED", "vehicleDoor": "FRONT_RIGHT"},
+    {"value": "LOCKED", "vehicleDoor": "REAR_LEFT"},
+    {"value": "LOCKED", "vehicleDoor": "REAR_RIGHT"},
+    {"value": "UNKNOWN", "vehicleDoor": "TAILGATE"}
+  ],
+  "twoOfFour": [
+    {"value": "LOCKED", "vehicleDoor": "FRONT_LEFT"},
+    {"value": "LOCKED", "vehicleDoor": "FRONT_RIGHT"},
+    {"value": "UNLOCKED", "vehicleDoor": "REAR_LEFT"},
+    {"value": "UNLOCKED", "vehicleDoor": "REAR_RIGHT"}
+  ],
+  "none": [
+    {"value": "UNLOCKED", "vehicleDoor": "FRONT_LEFT"},
+    {"value": "UNLOCKED", "vehicleDoor": "FRONT_RIGHT"},
+    {"value": "UNLOCKED", "vehicleDoor": "REAR_LEFT"},
+    {"value": "UNLOCKED", "vehicleDoor": "REAR_RIGHT"}
+  ],
+  "empty": [],
+  "onlyUnknown": [
+    {"value": "UNKNOWN", "vehicleDoor": "TAILGATE", "tags": {"DOOR_LATCH_TYPE": "MECHANICAL"}},
+    {"value": "UNKNOWN", "vehicleDoor": "FRUNK"}
+  ],
+  "mechanicalUnlockedIgnored": [
+    {"value": "LOCKED", "vehicleDoor": "FRONT_LEFT"},
+    {"value": "UNLOCKED", "vehicleDoor": "TAILGATE", "tags": {"DOOR_LATCH_TYPE": "MECHANICAL"}}
+  ]
+}
