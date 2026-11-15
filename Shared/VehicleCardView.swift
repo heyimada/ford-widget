@@ -18,7 +18,21 @@ extension VehicleSnapshot {
     }
 }
 
+private struct FordLogoKey: EnvironmentKey {
+    static let defaultValue: Image? = nil
+}
+
+extension EnvironmentValues {
+    /// Lets a host without an asset catalog (the macOS render script) supply the logo.
+    var fordLogo: Image? {
+        get { self[FordLogoKey.self] }
+        set { self[FordLogoKey.self] = newValue }
+    }
+}
+
 struct FordLogoView: View {
+    @Environment(\.fordLogo) private var injected
+
     // Image(_:) cannot tell an empty asset slot from a real one, so UIKit is probed; macOS always shows the text.
     private static let hasAsset: Bool = {
         #if canImport(UIKit)
@@ -29,7 +43,9 @@ struct FordLogoView: View {
     }()
 
     var body: some View {
-        if Self.hasAsset {
+        if let injected {
+            injected.resizable().scaledToFit().frame(height: 24)
+        } else if Self.hasAsset {
             Image("FordLogo").resizable().scaledToFit().frame(height: 24)
         } else {
             Text("Ford")
