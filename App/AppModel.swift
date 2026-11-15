@@ -180,13 +180,12 @@ final class AppModel {
                 phase = commandPhase(states: response["states"] as? [String: Any] ?? [:], command: command, commandId: id)
                 if phase != .waiting { break }
             }
-            if phase == .waiting { phase = .failed("The car did not answer in time.") }
+            // The command may still have reached the car, so an unconfirmed send must not read as "nothing happened".
+            if phase == .waiting { phase = .failed("Sent, but the car has not confirmed yet. The status below is the latest the car reported.") }
             try Task.checkCancellation()
             commandPhases[command] = phase
-            if phase == .succeeded {
-                forgetSuccess(of: command)
-                try await fetchSnapshot(fresh, token: token)
-            }
+            if phase == .succeeded { forgetSuccess(of: command) }
+            try await fetchSnapshot(fresh, token: token)
         } catch {
             if Task.isCancelled { throw error }
             if case FordError.reauthRequired = error {
