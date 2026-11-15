@@ -114,7 +114,6 @@ struct VehicleCardView: View {
             Text(value.map { $0.formatted(.number.locale(locale)) } ?? "–")
                 .font(.system(size: 28)).foregroundStyle(CardStyle.ink).lineLimit(1).minimumScaleFactor(0.5)
             Text(unit).font(.system(size: 14)).foregroundStyle(CardStyle.gray)
-                .frame(width: 24, alignment: .trailing)
         }
     }
 }
