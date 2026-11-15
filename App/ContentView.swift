@@ -47,17 +47,19 @@ struct ContentView: View {
 
     private var signedIn: some View {
         VStack(spacing: 22) {
-            Group {
-                if let snapshot = model.snapshot {
+            if let snapshot = model.snapshot {
+                // Laid out at medium-widget size and scaled up, so the app shows exactly what the widget shows.
+                GeometryReader { geo in
                     VehicleCardView(snapshot: snapshot, carImage: model.carImage, now: Date())
                         .padding(16)
-                        .frame(height: 170)
-                } else {
-                    Text("No data yet").foregroundStyle(.secondary).frame(height: 170)
+                        .frame(width: 338, height: 158)
+                        .background(CardStyle.background, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+                        .scaleEffect(geo.size.width / 338, anchor: .topLeading)
                 }
+                .aspectRatio(338 / 158, contentMode: .fit)
+            } else {
+                Text("No data yet").foregroundStyle(.secondary).frame(maxWidth: .infinity, minHeight: 158)
             }
-            .frame(maxWidth: .infinity)
-            .background(CardStyle.background, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
 
             Button { Task { await model.refresh() } } label: {
                 Text("Refresh").font(.title2).padding(.horizontal, 24)
