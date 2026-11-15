@@ -65,7 +65,7 @@ struct VehicleCardView: View {
                 }
                 .frame(maxWidth: .infinity)
                 VStack(spacing: 6) {
-                    row("Fuel level", fuelPercentValue, unit: "%")
+                    row("Fuel level", snapshot.fuelPercent, unit: "%")
                     row("Range", snapshot.rangeKm, unit: "km")
                     row("Mileage", snapshot.odometerKm, unit: "km")
                 }
@@ -74,8 +74,6 @@ struct VehicleCardView: View {
             }
         }
     }
-
-    private var fuelPercentValue: Int? { snapshot.fuelPercent }
 
     private var age: String {
         guard let updated = snapshot.updatedAt else { return "–" }
