@@ -1,0 +1,1307 @@
+{
+ "events": {
+  "customEvents": {
+   "vehicle-status-update-door-hood-status-event": {
+    "commandId": "00000000-0000-0000-0000-000000000001",
+    "metrics": {
+     "doorLockStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "LOCKED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "LOCKED",
+       "vehicleDoor": "ALL_DOORS"
+      }
+     ],
+     "doorStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_RIGHT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_LEFT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "INNER_TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      }
+     ],
+     "hoodStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": "CLOSED"
+     },
+     "windowStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER",
+       "vehicleWindow": "UNSPECIFIED_FRONT"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER",
+       "vehicleWindow": "UNSPECIFIED_FRONT"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER",
+       "vehicleWindow": "UNSPECIFIED_REAR"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "DRIVER",
+       "vehicleWindow": "UNSPECIFIED_REAR"
+      }
+     ]
+    },
+    "oemData": {
+     "ftcp_version": {
+      "stringValue": "5.0.10"
+     },
+     "vehicle_common_correlation_id": {
+      "stringValue": "779025"
+     }
+    },
+    "updateTime": "2026-10-29T15:48:37Z"
+   },
+   "vehicle-status-update-event": {
+    "commandId": "00000000-0000-0000-0000-000000000001",
+    "oemData": {
+     "ftcp_version": {
+      "stringValue": "5.0.10"
+     },
+     "vehicle_common_correlation_id": {
+      "stringValue": "779025"
+     }
+    },
+    "updateTime": "2026-10-29T15:48:37Z"
+   }
+  },
+  "remoteStartEvent": {
+   "commandId": "00000000-0000-0000-0000-000000000002",
+   "conditions": {
+    "remoteStartEnded": {
+     "remoteStartDeviceStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-25T16:27:10Z",
+      "value": "SHUTDOWN"
+     }
+    }
+   },
+   "metrics": {
+    "remoteStartCountdownTimer": {
+     "oemCorrelationId": "0",
+     "updateTime": "2026-10-25T16:27:10Z",
+     "value": 0.0
+    },
+    "wheelTorqueStatus": {
+     "oemCorrelationId": "0",
+     "updateTime": "2026-10-25T16:27:10Z",
+     "value": "OFF"
+    }
+   },
+   "oemData": {
+    "ftcp_version": {
+     "stringValue": "5.0.10"
+    },
+    "vehicle_common_correlation_id": {
+     "stringValue": "778989"
+    }
+   },
+   "updateTime": "2026-10-25T16:27:10Z"
+  },
+  "torqueSourceDeliveryEvent": {
+   "conditions": {
+    "torqueSourceDeliveryNotReady": {}
+   },
+   "metrics": {
+    "ignitionStatus": {
+     "oemCorrelationId": "0",
+     "updateTime": "2026-10-29T16:41:28Z",
+     "value": "OFF"
+    },
+    "wheelTorqueStatus": {
+     "oemCorrelationId": "0",
+     "updateTime": "2026-10-29T16:41:28Z",
+     "value": "OFF"
+    }
+   },
+   "oemData": {
+    "ftcp_version": {
+     "stringValue": "5.0.10"
+    },
+    "vehicle_common_correlation_id": {}
+   },
+   "updateTime": "2026-10-29T16:41:28Z"
+  }
+ },
+ "metrics": {
+  "acceleration": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:32:07Z",
+   "value": {
+    "sensorType": "ACCELEROMETER_DATA",
+    "x": 0.195,
+    "y": -0.365,
+    "z": 0.0
+   }
+  },
+  "acceleratorPedalPosition": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "alarmStatus": {
+   "oemCorrelationId": "0",
+   "tags": {
+    "ALARM_SOURCE": "UNKNOWN"
+   },
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "ARMED"
+  },
+  "batteryStateOfCharge": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 67.0,
+   "vehicleBattery": "PRIMARY_BATTERY"
+  },
+  "batteryVoltage": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 12.0,
+   "vehicleBattery": "PRIMARY_BATTERY"
+  },
+  "brakePedalStatus": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "OFF"
+  },
+  "brakeTorque": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "compassDirection": {
+   "gpsModuleTimestamp": "2026-10-29T16:41:44Z",
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:41:28Z",
+   "value": "NORTHWEST"
+  },
+  "configurations": {
+   "remoteStartRunDurationSetting": {
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": 0.0
+   }
+  },
+  "displaySystemOfMeasure": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:41:28Z",
+   "value": "METRIC"
+  },
+  "doorLockStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "LOCKED",
+    "vehicleDoor": "ALL_DOORS"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "LOCKED",
+    "vehicleDoor": "UNSPECIFIED_FRONT",
+    "vehicleOccupantRole": "DRIVER",
+    "vehicleSide": "DRIVER"
+   }
+  ],
+  "doorStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "REAR_LEFT",
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "UNKNOWN"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "UNSPECIFIED_FRONT",
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "PASSENGER"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "REAR_RIGHT",
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "UNKNOWN"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "TAILGATE",
+    "vehicleOccupantRole": "PASSENGER"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "UNSPECIFIED_FRONT",
+    "vehicleOccupantRole": "DRIVER",
+    "vehicleSide": "DRIVER"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "CLOSED",
+    "vehicleDoor": "INNER_TAILGATE",
+    "vehicleOccupantRole": "PASSENGER"
+   }
+  ],
+  "engineCoolantTemp": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 10.0
+  },
+  "engineSpeed": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0
+  },
+  "fuelLevel": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 56.52192
+  },
+  "fuelRange": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 266.9
+  },
+  "gearLeverPosition": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "PARK"
+  },
+  "heading": {
+   "gpsModuleTimestamp": "2026-10-29T16:41:44Z",
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:41:28Z",
+   "value": {
+    "detectionType": "HEADING_RAW_GNSS",
+    "heading": 301.0,
+    "uncertainty": 0.0
+   }
+  },
+  "hoodStatus": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "CLOSED"
+  },
+  "ignitionStatus": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "OFF"
+  },
+  "indicators": {
+   "adaptiveCruiseControl": {
+    "additionalInfo": "600E14",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "airFilterMinder": {
+    "additionalInfo": "600E02",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "airSuspensionRideControlFault": {
+    "additionalInfo": "600E22",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "allWheelDriveDisabled": {
+    "additionalInfo": "600E03",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "antiTheft": {
+    "additionalInfo": "600E21",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "antilockBrake": {
+    "additionalInfo": "600E29",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "blindSpotDetection": {
+    "additionalInfo": "600F30",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "brakeWarning": {
+    "additionalInfo": "600E28",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "chargeSystemFault": {
+    "additionalInfo": "600E25",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "checkFuelCap": {
+    "additionalInfo": "600E13",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "checkFuelFillInlet": {
+    "additionalInfo": "600E12",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselEngineIdleShutdown": {
+    "additionalInfo": "600E05",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselEngineWarning": {
+    "additionalInfo": "600E06",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselExhaustFluidLow": {
+    "additionalInfo": "600F27",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselExhaustFluidSystemFault": {
+    "additionalInfo": "600F26",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselExhaustOverTemp": {
+    "additionalInfo": "600E08",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselParticulateFilter": {
+    "additionalInfo": "600E07",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "dieselPreHeat": {
+    "additionalInfo": "600E09",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "electricTrailerBrakeConnection": {
+    "additionalInfo": "600E18",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "electronicParkingBrakeWarning": {
+    "additionalInfo": "600F15",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "engineCoolantOverTemp": {
+    "additionalInfo": "600E16",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "fastenSeatBeltWarning": {
+    "additionalInfo": "600E31",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": true
+   },
+   "forwardCollisionWarning": {
+    "additionalInfo": "600E00",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "fuelDoorOpen": {
+    "additionalInfo": "600E11",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "gasParticulateFilterWarning": {
+    "additionalInfo": "600F18",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "genericABSFaultWarning": {
+    "additionalInfo": "600F17",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "hevHazard": {
+    "additionalInfo": "600F19",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "hillDescentControlFault": {
+    "additionalInfo": "600F25",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "hillStartAssistWarning": {
+    "additionalInfo": "600F22",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "laneKeepingAid": {
+    "additionalInfo": "600F24",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "lightingSystemFailure": {
+    "additionalInfo": "600F21",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "lowBrakeFluid": {
+    "additionalInfo": "600F16",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "lowEngineOilPressure": {
+    "additionalInfo": "600E17",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "lowFuel": {
+    "additionalInfo": "600E20",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "lowWasherFluid": {
+    "additionalInfo": "600E19",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "malfunctionIndicator": {
+    "additionalInfo": "600E26",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "parkAidMalfunction": {
+    "additionalInfo": "600E01",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "passiveEntryPassiveStart": {
+    "additionalInfo": "600E04",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "powertrainMalfunction": {
+    "additionalInfo": "600E15",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "restraintsIndicatorWarning": {
+    "additionalInfo": "600E30",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "serviceSteering": {
+    "additionalInfo": "600F29",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "startStopEngineWarning": {
+    "additionalInfo": "600F20",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": true
+   },
+   "tirePressureMonitorSystemWarning": {
+    "additionalInfo": "600E27",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "tractionControlDisabled": {
+    "additionalInfo": "600E23",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "tractionControlEvent": {
+    "additionalInfo": "600E24",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   },
+   "waterInFuel": {
+    "additionalInfo": "600E10",
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T13:47:15Z",
+    "value": false
+   }
+  },
+  "odometer": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 44181.0
+  },
+  "oilLifeRemaining": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 59.0
+  },
+  "outsideTemperature": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 11.5
+  },
+  "panicAlarmStatus": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "UNDEFINED"
+  },
+  "parkingBrakeStatus": {
+   "oemCorrelationId": "0",
+   "parkingBrakeType": "MECHANICAL",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "OFF"
+  },
+  "position": {
+   "gpsModuleTimestamp": "2026-10-29T16:41:44Z",
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:41:28Z",
+   "value": {
+    "gdop": 0.0,
+    "gpsCoordinateMethod": "ACTUAL",
+    "gpsDimension": "DIM_2D",
+    "hdop": 0,
+    "location": {
+     "alt": 50.0,
+     "lat": 50.9375,
+     "lon": 6.9603
+    },
+    "pdop": 0,
+    "vdop": 0
+   }
+  },
+  "remoteStartCountdownTimer": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "seatBeltStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-10-29T16:41:28Z",
+    "value": "UNBUCKLED",
+    "vehicleOccupantRole": "PASSENGER"
+   }
+  ],
+  "speed": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "tirePressure": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": 242.0,
+    "vehicleWheel": "FRONT_LEFT",
+    "wheelPlacardFront": 206.8428
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": 244.0,
+    "vehicleWheel": "FRONT_RIGHT",
+    "wheelPlacardFront": 206.8428
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": 242.0,
+    "vehicleWheel": "REAR_LEFT",
+    "wheelPlacardRear": 179.26376000000002
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": 245.0,
+    "vehicleWheel": "REAR_RIGHT",
+    "wheelPlacardRear": 179.26376000000002
+   }
+  ],
+  "tirePressureStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "NORMAL",
+    "vehicleWheel": "FRONT_LEFT"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "NORMAL",
+    "vehicleWheel": "FRONT_RIGHT"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "NORMAL",
+    "vehicleWheel": "REAR_LEFT"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "NORMAL",
+    "vehicleWheel": "REAR_RIGHT"
+   }
+  ],
+  "tirePressureSystemStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": "NORMAL_OPERATION"
+   }
+  ],
+  "torqueAtTransmission": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "tripXevBatteryDistanceAccumulated": {
+   "oemCorrelationId": "0",
+   "tripProgress": "TRIP_IN_PROGRESS",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": 0.0
+  },
+  "vehicleLifeCycleMode": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "NORMAL"
+  },
+  "wheelTorqueStatus": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-11-03T16:45:10Z",
+   "value": "OFF"
+  },
+  "windowStatus": [
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": {
+     "doubleRange": {
+      "lowerBound": 0.0,
+      "upperBound": 0.0
+     }
+    },
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "PASSENGER",
+    "vehicleWindow": "UNSPECIFIED_FRONT"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": {
+     "doubleRange": {
+      "lowerBound": 0.0,
+      "upperBound": 0.0
+     }
+    },
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "DRIVER",
+    "vehicleWindow": "UNSPECIFIED_REAR"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": {
+     "doubleRange": {
+      "lowerBound": 0.0,
+      "upperBound": 0.0
+     }
+    },
+    "vehicleOccupantRole": "PASSENGER",
+    "vehicleSide": "PASSENGER",
+    "vehicleWindow": "UNSPECIFIED_REAR"
+   },
+   {
+    "oemCorrelationId": "0",
+    "updateTime": "2026-11-03T16:45:10Z",
+    "value": {
+     "doubleRange": {
+      "lowerBound": 0.0,
+      "upperBound": 0.0
+     }
+    },
+    "vehicleOccupantRole": "DRIVER",
+    "vehicleSide": "DRIVER",
+    "vehicleWindow": "UNSPECIFIED_FRONT"
+   }
+  ],
+  "yawRate": {
+   "oemCorrelationId": "0",
+   "updateTime": "2026-10-29T16:32:07Z",
+   "value": -0.16491
+  }
+ },
+ "states": {
+  "cancelRemoteStartCommand": {
+   "commandId": "00000000-0000-0000-0000-000000000002",
+   "message": "CancelRemoteStartCommandResponse with status SUCCESS",
+   "tags": {
+    "tmcArrivalTimestamp": "2026-10-25T16:27:12.555Z"
+   },
+   "timestamp": "2026-10-25T16:27:12.597215Z",
+   "value": {
+    "data": {
+     "commandError": {
+      "commandExecutionFailure": {}
+     }
+    },
+    "fromState": "request_queued",
+    "oemData": {
+     "vehicle_common_correlation_id": {
+      "stringValue": "778989"
+     }
+    },
+    "toState": "success",
+    "trigger": {
+     "unknown": "actuation_succeeded"
+    }
+   }
+  },
+  "commandPreclusion": {
+   "timestamp": "2026-11-03T16:45:21.517Z",
+   "value": {
+    "data": {
+     "commandPreclusionCauses": {
+      "carrierRegistrationCommandPreclusionState": "UNKNOWN_CARRIER_REGISTRATION_COMMAND_PRECLUSION_STATE",
+      "deepSleepCommandPreclusionState": "COMMANDS_PRECLUDED_BY_DEEP_SLEEP",
+      "firmwareUpgradeCommandPreclusionState": "COMMANDS_NOT_PRECLUDED_BY_FIRMWARE_UPDATE",
+      "temperatureThresholdCommandPreclusionState": "UNKNOWN_TEMPERATURE_THRESHOLD_COMMAND_PRECLUSION_STATE"
+     }
+    },
+    "fromState": "COMMANDS_PERMITTED",
+    "toState": "COMMANDS_PRECLUDED",
+    "trigger": {
+     "commandPreclusion": "NEW_PRECLUSION_INTRODUCED"
+    }
+   }
+  },
+  "configurationUpdate": {
+   "commandId": "00000000-0000-0000-0000-000000000005",
+   "message": "Successfully sent to device",
+   "timestamp": "2026-10-29T16:31:20.949216Z",
+   "value": {
+    "fromState": "oem_cloud_to_device_delivery_in_progress",
+    "toState": "success",
+    "trigger": {
+     "unknown": "request_queued_on_device"
+    }
+   }
+  },
+  "deviceConnectivity": {
+   "timestamp": "2026-11-03T16:46:23.499Z",
+   "value": {
+    "toState": "DISCONNECTED"
+   }
+  },
+  "deviceWakeup": {
+   "commandId": "00000000-0000-0000-0000-000000000001",
+   "message": "SMS delivery service successfully invoked the VODAFONE API to deliver a SMS request",
+   "timestamp": "2026-10-29T15:48:25.380248Z",
+   "value": {
+    "fromState": "REQUEST_DELIVERY_QUEUED",
+    "toState": "REQUEST_DELIVERY_IN_PROGRESS",
+    "trigger": {
+     "deviceWakeup": "REQUEST_SUBMITTED_TO_TELCO"
+    }
+   }
+  },
+  "lockCommand": {
+   "commandId": "00000000-0000-0000-0000-000000000003",
+   "message": "LockCommandResponse with status FAILED",
+   "tags": {
+    "tmcArrivalTimestamp": "2026-10-22T18:37:07.917Z"
+   },
+   "timestamp": "2026-10-22T18:37:07.979591Z",
+   "value": {
+    "data": {
+     "commandError": {
+      "commandExecutionFailure": {
+       "componentStateChanges": {},
+       "componentSystem": "UNKNOWN_COMPONENT_SYSTEM",
+       "oemErrorCode": 8,
+       "oemErrorContext": "CAN Timeout"
+      },
+      "commandFailureContext": {
+       "failedAfterDeliveryContext": {
+        "failureType": "DEVICE_EXECUTION_FAILURE"
+       }
+      }
+     }
+    },
+    "fromState": "request_queued",
+    "metrics": {
+     "doorLockStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "DOUBLE_LOCKED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "DOUBLE_LOCKED",
+       "vehicleDoor": "ALL_DOORS"
+      }
+     ],
+     "doorStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_LEFT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_RIGHT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-22T18:37:06Z",
+       "value": "CLOSED",
+       "vehicleDoor": "INNER_TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      }
+     ],
+     "hoodStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-22T18:37:06Z",
+      "value": "CLOSED"
+     }
+    },
+    "oemData": {
+     "vehicle_common_correlation_id": {
+      "stringValue": "778961"
+     }
+    },
+    "toState": "failure",
+    "trigger": {
+     "unknown": "failed"
+    }
+   }
+  },
+  "remoteStartCommand": {
+   "commandId": "00000000-0000-0000-0000-000000000004",
+   "message": "InitiateRemoteStartCommandResponse with status SUCCESS",
+   "tags": {
+    "tmcArrivalTimestamp": "2026-10-25T16:26:57.426Z"
+   },
+   "timestamp": "2026-10-25T16:26:57.478953Z",
+   "value": {
+    "data": {
+     "commandError": {
+      "commandExecutionFailure": {}
+     }
+    },
+    "fromState": "request_queued",
+    "metrics": {
+     "alarmStatus": {
+      "oemCorrelationId": "0",
+      "tags": {
+       "ALARM_SOURCE": "UNKNOWN"
+      },
+      "updateTime": "2026-10-25T16:26:55Z",
+      "value": "ARMED"
+     },
+     "hoodStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-25T16:26:55Z",
+      "value": "CLOSED"
+     },
+     "ignitionStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-25T16:26:55Z",
+      "value": "OFF"
+     },
+     "panicAlarmStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-25T16:26:55Z",
+      "value": "UNDEFINED"
+     },
+     "remoteStartCountdownTimer": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-25T16:26:55Z",
+      "value": 300.0
+     }
+    },
+    "oemData": {
+     "vehicle_common_correlation_id": {
+      "stringValue": "778987"
+     }
+    },
+    "toState": "success",
+    "trigger": {
+     "unknown": "actuation_succeeded"
+    }
+   }
+  },
+  "statusRefreshCommand": {
+   "commandId": "00000000-0000-0000-0000-000000000001",
+   "message": "VehicleStatusUpdateCommandResponse with status SUCCESS",
+   "tags": {
+    "tmcArrivalTimestamp": "2026-10-29T15:48:37.750Z"
+   },
+   "timestamp": "2026-10-29T15:48:37.815314Z",
+   "value": {
+    "data": {
+     "commandError": {
+      "commandExecutionFailure": {}
+     }
+    },
+    "fromState": "request_queued",
+    "metrics": {
+     "doorLockStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "LOCKED",
+       "vehicleDoor": "ALL_DOORS"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "LOCKED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      }
+     ],
+     "doorStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "INNER_TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_RIGHT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "UNSPECIFIED_FRONT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "REAR_LEFT",
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "UNKNOWN"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": "CLOSED",
+       "vehicleDoor": "TAILGATE",
+       "vehicleOccupantRole": "PASSENGER"
+      }
+     ],
+     "fuelLevel": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": 57.500184
+     },
+     "hoodStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": "CLOSED"
+     },
+     "ignitionStatus": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": "OFF"
+     },
+     "odometer": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": 44177.0
+     },
+     "outsideTemperature": {
+      "oemCorrelationId": "0",
+      "updateTime": "2026-10-29T15:48:37Z",
+      "value": 14.25
+     },
+     "tirePressure": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": 256.0,
+       "vehicleWheel": "REAR_RIGHT",
+       "wheelPlacardRear": 179.26376000000002
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": 256.0,
+       "vehicleWheel": "REAR_LEFT",
+       "wheelPlacardRear": 179.26376000000002
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": 254.0,
+       "vehicleWheel": "FRONT_RIGHT",
+       "wheelPlacardFront": 206.8428
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": 252.0,
+       "vehicleWheel": "FRONT_LEFT",
+       "wheelPlacardFront": 206.8428
+      }
+     ],
+     "windowStatus": [
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "DRIVER",
+       "vehicleWindow": "UNSPECIFIED_REAR"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "DRIVER",
+       "vehicleSide": "DRIVER",
+       "vehicleWindow": "UNSPECIFIED_FRONT"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER",
+       "vehicleWindow": "UNSPECIFIED_REAR"
+      },
+      {
+       "oemCorrelationId": "0",
+       "updateTime": "2026-10-29T15:48:37Z",
+       "value": {
+        "doubleRange": {
+         "lowerBound": 0.0,
+         "upperBound": 0.0
+        }
+       },
+       "vehicleOccupantRole": "PASSENGER",
+       "vehicleSide": "PASSENGER",
+       "vehicleWindow": "UNSPECIFIED_FRONT"
+      }
+     ]
+    },
+    "oemData": {
+     "vehicle_common_correlation_id": {
+      "stringValue": "779025"
+     }
+    },
+    "toState": "success",
+    "trigger": {
+     "unknown": "on_demand_status_update_succeeded"
+    }
+   }
+  }
+ },
+ "updateTime": "2026-11-03T16:46:23.499Z",
+ "vehicleId": "00000000-0000-0000-0000-00000000aaaa",
+ "vin": "WF0XXXGCHXJA00000"
+}
