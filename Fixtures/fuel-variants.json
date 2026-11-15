@@ -1,0 +1,5 @@
+{
+  "missing": {"fuelRange": {"value": 100.0}},
+  "string": {"fuelLevel": {"value": "56.7"}},
+  "huge": {"fuelLevel": {"value": 1e300}}
+}

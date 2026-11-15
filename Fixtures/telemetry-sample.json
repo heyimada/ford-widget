@@ -1,0 +1,12 @@
+{
+  "metrics": {
+    "fuelLevel": {"updateTime": "2025-06-30T05:34:24.902Z", "oemCorrelationId": "xxx", "value": 56.7},
+    "fuelRange": {"updateTime": "2025-06-30T05:34:24Z", "oemCorrelationId": "xxx", "value": 267.4},
+    "odometer": {"updateTime": "2025-06-13T00:05:54Z", "oemCorrelationId": "xxx", "value": 44181.0},
+    "ignitionStatus": {"updateTime": "2025-07-01T10:00:00Z", "value": "OFF"},
+    "doorLockStatus": [
+      {"updateTime": "2025-06-30T05:34:24Z", "oemCorrelationId": "xxx", "value": "LOCKED", "vehicleDoor": "ALL_DOORS"},
+      {"updateTime": "2025-06-30T05:34:24Z", "oemCorrelationId": "xxx", "value": "UNLOCKED", "vehicleDoor": "FRONT_LEFT", "determinationMethod": "ACTUAL"}
+    ]
+  }
+}
