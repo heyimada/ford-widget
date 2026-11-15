@@ -10,6 +10,7 @@ struct VehicleEntry: TimelineEntry {
 
 struct VehicleProvider: TimelineProvider {
     private static let reloadInterval: TimeInterval = 30 * 60
+    private static let fetchDeadline: Duration = .seconds(25)
 
     func placeholder(in context: Context) -> VehicleEntry { sample() }
 
@@ -25,7 +26,12 @@ struct VehicleProvider: TimelineProvider {
         Task {
             let now = Date()
             let entry = await Self.liveEntry(now: now)
-            completion(Timeline(entries: [entry], policy: .after(now.addingTimeInterval(Self.reloadInterval))))
+            // Extra entries keep the "… ago" text advancing when WidgetKit postpones the reload.
+            let entries = (0..<24).map { step in
+                VehicleEntry(date: now.addingTimeInterval(TimeInterval(step) * 15 * 60), snapshot: entry.snapshot,
+                             carImage: entry.carImage, isStale: entry.isStale)
+            }
+            completion(Timeline(entries: entries, policy: .after(now.addingTimeInterval(Self.reloadInterval))))
         }
     }
 
@@ -37,12 +43,23 @@ struct VehicleProvider: TimelineProvider {
     /// The widget only reads the Keychain session; any failure falls back to the cached snapshot.
     private static func liveEntry(now: Date) async -> VehicleEntry {
         let image = CarImage.load()
-        guard let session = SessionStore.load() else {
-            return VehicleEntry(date: now, snapshot: SnapshotStore.latest(), carImage: image, isStale: false)
+        let session: FordSession
+        switch SessionStore.read() {
+        case .found(let found): session = found
+        case .signedOut: return VehicleEntry(date: now, snapshot: nil, carImage: nil, isStale: false)
+        case .unreadable: return VehicleEntry(date: now, snapshot: SnapshotStore.latest(), carImage: image, isStale: true)
         }
         do {
-            let live = try await FordAPI.snapshot(for: session, now: now)
-            SnapshotStore.save(live, as: .widget)
+            let live = try await withThrowingTaskGroup(of: VehicleSnapshot.self) { group in
+                group.addTask { try await FordAPI.snapshot(for: session, now: now) }
+                group.addTask {
+                    try await Task.sleep(for: fetchDeadline)
+                    throw CancellationError()
+                }
+                defer { group.cancelAll() }
+                return try await group.next()!
+            }
+            if case .found = SessionStore.read() { SnapshotStore.save(live, as: .widget) }
             return VehicleEntry(date: now, snapshot: live, carImage: image, isStale: false)
         } catch {
             return VehicleEntry(date: now, snapshot: SnapshotStore.latest(), carImage: image, isStale: true)

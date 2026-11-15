@@ -15,11 +15,12 @@ final class AppModel {
     var regionId: String
 
     private let webAuth = WebAuth()
+    private var current: Task<Void, Error>?
 
     init() {
         let stored = SessionStore.load()
         session = stored
-        snapshot = SnapshotStore.latest()
+        snapshot = stored == nil ? nil : SnapshotStore.latest()
         carImage = CarImage.load()
         regionId = stored?.regionId ?? FordRegion.default().id
     }
@@ -38,6 +39,7 @@ final class AppModel {
             let vehicle = try await FordAPI.firstVehicle(session)
             session.vin = vehicle.vin
             session.vehicleName = vehicle.name
+            try Task.checkCancellation()
             try SessionStore.save(session)
             self.session = session
             if let imageURL = vehicle.imageURL {
@@ -56,6 +58,7 @@ final class AppModel {
                vehicle.vin != fresh.vin || vehicle.name != fresh.vehicleName {
                 fresh.vin = vehicle.vin
                 fresh.vehicleName = vehicle.name
+                try Task.checkCancellation()
                 try SessionStore.save(fresh)
                 self.session = fresh
             }
@@ -74,13 +77,14 @@ final class AppModel {
             for _ in 0..<6 {
                 try await Task.sleep(for: .seconds(10))
                 let latest = try await FordAPI.snapshot(for: fresh, token: token)
-                self.store(latest)
+                try self.store(latest)
                 if let updated = latest.updatedAt, baseline.map({ updated > $0 }) ?? true { break }
             }
         }
     }
 
     func signOut() {
+        current?.cancel()
         SessionStore.clear()
         SnapshotStore.clear()
         CarImage.clear()
@@ -96,6 +100,7 @@ final class AppModel {
     private func renewed(_ session: FordSession) async throws -> FordSession {
         let fresh = try await FordAPI.freshSession(session)
         if fresh.accessToken != session.accessToken {
+            try Task.checkCancellation()
             try SessionStore.save(fresh)
             self.session = fresh
         }
@@ -103,23 +108,33 @@ final class AppModel {
     }
 
     private func fetchSnapshot(_ session: FordSession) async throws {
-        store(try await FordAPI.snapshot(for: session))
+        try store(try await FordAPI.snapshot(for: session))
     }
 
-    private func store(_ latest: VehicleSnapshot) {
+    /// Main-actor isolated, so a sign-out cannot land between the cancellation check and the writes.
+    private func store(_ latest: VehicleSnapshot) throws {
+        try Task.checkCancellation()
         snapshot = latest
         SnapshotStore.save(latest, as: .app)
         WidgetCenter.shared.reloadAllTimelines()
     }
 
-    private func run(_ work: @escaping () async throws -> Void) async {
+    /// Runs one operation at a time as a task that `signOut()` cancels, so a late result cannot resurrect the session.
+    private func run(_ work: @escaping @MainActor () async throws -> Void) async {
         guard !isBusy else { return }
         isBusy = true
-        defer { isBusy = false }
+        let task = Task { try await work() }
+        current = task
+        defer {
+            isBusy = false
+            current = nil
+        }
         do {
-            try await work()
+            try await task.value
             errorText = ""
             needsReauth = false
+        } catch _ where task.isCancelled {
+            return
         } catch let error as ASWebAuthenticationSessionError where error.code == .canceledLogin {
             return
         } catch let error as FordError {

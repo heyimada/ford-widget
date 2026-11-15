@@ -150,8 +150,18 @@ enum FordAPI {
     /// variant is deliberately not used: it answers 502 from Germany.
     static func telemetry(vin: String, token: String) async throws -> [String: Any] {
         let streamed = await streamMetrics(vin: vin, token: token)
-        if !streamed.isEmpty { return streamed }
+        if isComplete(streamed) { return streamed }
+        do {
+            var polled = try await pollMetrics(vin: vin, token: token)
+            mergeMetrics(into: &polled, frame: ["metrics": streamed])
+            return polled
+        } catch {
+            if streamed.isEmpty { throw error }
+            return streamed
+        }
+    }
 
+    private static func pollMetrics(vin: String, token: String) async throws -> [String: Any] {
         let url = URL(string: "\(autonomic)/telemetry/sources/fordpass/vehicles/\(vin)?lrdt=01-01-1970%2000:00:00")!
         let (data, status) = try await send(url, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"])
         guard status == 200 else { throw FordError.http(status, String(decoding: data, as: UTF8.self)) }

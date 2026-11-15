@@ -21,31 +21,48 @@ enum SessionStore {
          kSecAttrAccessGroup as String: AppGroup.id]
     }
 
-    static func load() -> FordSession? {
+    enum Read {
+        case found(FordSession)
+        case signedOut
+        /// The Keychain refused the read, e.g. before the first unlock after a reboot. Not the same as signed out.
+        case unreadable
+    }
+
+    static func read() -> Read {
         var q = query
         q[kSecReturnData as String] = true
         q[kSecMatchLimit as String] = kSecMatchLimitOne
         var item: CFTypeRef?
-        guard SecItemCopyMatching(q as CFDictionary, &item) == errSecSuccess, let data = item as? Data else { return nil }
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        return try? decoder.decode(FordSession.self, from: data)
+        switch SecItemCopyMatching(q as CFDictionary, &item) {
+        case errSecSuccess:
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .secondsSince1970
+            guard let data = item as? Data, let session = try? decoder.decode(FordSession.self, from: data) else {
+                return .signedOut
+            }
+            return .found(session)
+        case errSecItemNotFound:
+            return .signedOut
+        default:
+            return .unreadable
+        }
     }
 
+    static func load() -> FordSession? {
+        if case .found(let session) = read() { return session }
+        return nil
+    }
+
+    /// Delete-then-add so an item written by an older build also picks up the current accessibility class.
     static func save(_ session: FordSession) throws {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
-        let data = try encoder.encode(session)
-        let status = SecItemUpdate(query as CFDictionary, [kSecValueData as String: data] as CFDictionary)
-        if status == errSecItemNotFound {
-            var add = query
-            add[kSecValueData as String] = data
-            add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlock
-            let addStatus = SecItemAdd(add as CFDictionary, nil)
-            guard addStatus == errSecSuccess else { throw FordError.decoding("Keychain write failed (\(addStatus))") }
-        } else if status != errSecSuccess {
-            throw FordError.decoding("Keychain update failed (\(status))")
-        }
+        var add = query
+        add[kSecValueData as String] = try encoder.encode(session)
+        add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        SecItemDelete(query as CFDictionary)
+        let status = SecItemAdd(add as CFDictionary, nil)
+        guard status == errSecSuccess else { throw FordError.decoding("Keychain write failed (\(status))") }
     }
 
     static func clear() {

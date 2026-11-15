@@ -8,7 +8,7 @@ final class WebAuth: NSObject, ASWebAuthenticationPresentationContextProviding {
     /// Runs the Ford login in the system browser sheet and returns the `code` from the `fordapp://` callback.
     func authorizationCode(url: URL) async throws -> String {
         let callback: URL = try await withCheckedThrowingContinuation { continuation in
-            let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "fordapp") { callback, error in
+            let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "fordapp") { @Sendable callback, error in
                 if let callback {
                     continuation.resume(returning: callback)
                 } else {
