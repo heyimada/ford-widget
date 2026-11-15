@@ -127,23 +127,29 @@ struct ActionButtons: View {
 
     private func button(_ command: CarCommand) -> some View {
         let phase = model.commandPhases[command]
-        return VStack(spacing: 6) {
-            Button { Task { await model.perform(command) } } label: {
-                HStack(spacing: 8) {
-                    switch phase {
-                    case .sending, .waiting: ProgressView()
-                    case .succeeded: Image(systemName: "checkmark.circle.fill")
-                    default: Image(systemName: command.symbol)
-                    }
-                    Text(command.buttonTitle(phase))
+        let action = Button { Task { await model.perform(command) } } label: {
+            HStack(spacing: 8) {
+                switch phase {
+                case .sending, .waiting: ProgressView()
+                case .succeeded: Image(systemName: "checkmark.circle.fill")
+                default: Image(systemName: command.symbol)
                 }
-                .font(.headline)
-                .frame(maxWidth: .infinity, minHeight: 24)
+                Text(command.buttonTitle(phase))
             }
-            .buttonStyle(.borderedProminent)
+            .font(.headline)
+            .frame(maxWidth: .infinity, minHeight: 24)
+        }
+        return VStack(spacing: 6) {
+            // Unlock and stop are secondary, but must still read as enabled (a gray fill looks disabled).
+            Group {
+                if command == .lock || command == .remoteStart {
+                    action.buttonStyle(.borderedProminent)
+                } else {
+                    action.buttonStyle(.bordered)
+                }
+            }
             .buttonBorderShape(.roundedRectangle(radius: 14))
             .controlSize(.regular)
-            .tint(command == .lock || command == .remoteStart ? .accentColor : .gray)
             .disabled(model.isBusy && phase == nil)
             if case .failed(let message) = phase {
                 Text(message).font(.footnote).foregroundStyle(.red).multilineTextAlignment(.center)
