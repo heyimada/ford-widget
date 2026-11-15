@@ -1,0 +1,508 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		077D0CDAF6BFF3851AE9307D /* VehicleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */; };
+		275AF5272DA2C451F8282549 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3923F4DDC828D8A350B52B /* Parser.swift */; };
+		2D5F2B3E8AB5357931CC47F9 /* FordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7175986E9D8DF98D58A1424 /* FordAPI.swift */; };
+		4B6E8A651C1526D15E89E752 /* FordRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714043C5216391E21338B400 /* FordRegion.swift */; };
+		4BB12060BD7533957A1B8AC1 /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA95462F09DBE276BE0E5E /* WireFormat.swift */; };
+		5D141579F278A05CEEB8462A /* VehicleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */; };
+		664E9DA64CD5B67F176F0A89 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3923F4DDC828D8A350B52B /* Parser.swift */; };
+		74066AF793B68EFAB3246D13 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8818432B868110209D29277E /* Models.swift */; };
+		77275705749A5CCE11D4A9D1 /* FordCarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD606B37A40B78BD9A2250 /* FordCarWidget.swift */; };
+		9327AD67C4AD5F4EFEDBD255 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DA5E9D18AB71E5D190B4F7F /* Assets.xcassets */; };
+		9D7193C0FCFAE1AB5C29D229 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E685FC02222A097C60366 /* AppModel.swift */; };
+		A76AC52D9C4544126D6F29D4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8818432B868110209D29277E /* Models.swift */; };
+		A8A2B6F16E7318F603662AC9 /* FordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7175986E9D8DF98D58A1424 /* FordAPI.swift */; };
+		ADF546A5DCFE24E9B09A6074 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E97B59DA98F214498DB676 /* Storage.swift */; };
+		AE70A64E375B9AF834EF645C /* FordRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714043C5216391E21338B400 /* FordRegion.swift */; };
+		B6190C831A489E94D476FB3D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150C3B4B2D7CD2343F76096 /* ContentView.swift */; };
+		C0CB61CEAC1D23CD87FB6950 /* FordWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 218A24C622B3BFEFEE228CDC /* FordWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CDFBCB3C162EF73FF8258A9E /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA95462F09DBE276BE0E5E /* WireFormat.swift */; };
+		D83A2941278215882D2D3856 /* WebAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DEA921BEB9F1100737F5C17 /* WebAuth.swift */; };
+		E80B782064EA68B22FD5269F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E97B59DA98F214498DB676 /* Storage.swift */; };
+		FB69406CD7E2F50D694CFA35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DA5E9D18AB71E5D190B4F7F /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1C080798DE5D79548C494D74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C60DB7AD7CEF1615D6852042 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F046884FACF1B58DDBECADEC;
+			remoteInfo = FordWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4EA247C0D55C7A8EB2B315AE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C0CB61CEAC1D23CD87FB6950 /* FordWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		218A24C622B3BFEFEE228CDC /* FordWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = FordWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		30141898A01F1EB902BB7B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		41E97B59DA98F214498DB676 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		5C3923F4DDC828D8A350B52B /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		62EA95462F09DBE276BE0E5E /* WireFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireFormat.swift; sourceTree = "<group>"; };
+		6DA5E9D18AB71E5D190B4F7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		714043C5216391E21338B400 /* FordRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FordRegion.swift; sourceTree = "<group>"; };
+		73A2F41C77CD32DCFF6E7F9F /* FordWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FordWidgetExtension.entitlements; sourceTree = "<group>"; };
+		7CE0DFD2E4F92D652D272287 /* FordWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FordWidget.entitlements; sourceTree = "<group>"; };
+		7DEA921BEB9F1100737F5C17 /* WebAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuth.swift; sourceTree = "<group>"; };
+		8818432B868110209D29277E /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		9EBD606B37A40B78BD9A2250 /* FordCarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FordCarWidget.swift; sourceTree = "<group>"; };
+		AA3E685FC02222A097C60366 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		B7C1F35E2BC01CC38FA99BF2 /* FordWidget.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FordWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E150C3B4B2D7CD2343F76096 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E664B7A39D3DDDF68414B1FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCardView.swift; sourceTree = "<group>"; };
+		F7175986E9D8DF98D58A1424 /* FordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FordAPI.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		16542BFE842843C70233FE7C /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				9EBD606B37A40B78BD9A2250 /* FordCarWidget.swift */,
+				73A2F41C77CD32DCFF6E7F9F /* FordWidgetExtension.entitlements */,
+				E664B7A39D3DDDF68414B1FA /* Info.plist */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		24D18EF09FC45EA95FEA6666 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				6DA5E9D18AB71E5D190B4F7F /* Assets.xcassets */,
+				F7175986E9D8DF98D58A1424 /* FordAPI.swift */,
+				714043C5216391E21338B400 /* FordRegion.swift */,
+				8818432B868110209D29277E /* Models.swift */,
+				5C3923F4DDC828D8A350B52B /* Parser.swift */,
+				41E97B59DA98F214498DB676 /* Storage.swift */,
+				E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */,
+				62EA95462F09DBE276BE0E5E /* WireFormat.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		28AE38027C96F03E1F22B708 = {
+			isa = PBXGroup;
+			children = (
+				D609D1936C0557B5E3F5AB92 /* App */,
+				24D18EF09FC45EA95FEA6666 /* Shared */,
+				16542BFE842843C70233FE7C /* Widget */,
+				DA781945497DE5011E463705 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D609D1936C0557B5E3F5AB92 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AA3E685FC02222A097C60366 /* AppModel.swift */,
+				E150C3B4B2D7CD2343F76096 /* ContentView.swift */,
+				7CE0DFD2E4F92D652D272287 /* FordWidget.entitlements */,
+				30141898A01F1EB902BB7B10 /* Info.plist */,
+				7DEA921BEB9F1100737F5C17 /* WebAuth.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DA781945497DE5011E463705 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7C1F35E2BC01CC38FA99BF2 /* FordWidget.app */,
+				218A24C622B3BFEFEE228CDC /* FordWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C37507E70ADFDFB33169A7B9 /* FordWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D72DF4E1E50E198079B20534 /* Build configuration list for PBXNativeTarget "FordWidget" */;
+			buildPhases = (
+				B11FF1107788FDBB1C468530 /* Sources */,
+				4BC6E104DA32A201CACCED34 /* Resources */,
+				4EA247C0D55C7A8EB2B315AE /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FCB610E40B5F4A331BE470A4 /* PBXTargetDependency */,
+			);
+			name = FordWidget;
+			packageProductDependencies = (
+			);
+			productName = FordWidget;
+			productReference = B7C1F35E2BC01CC38FA99BF2 /* FordWidget.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F046884FACF1B58DDBECADEC /* FordWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6499C6B1098FD0798D0B65F0 /* Build configuration list for PBXNativeTarget "FordWidgetExtension" */;
+			buildPhases = (
+				965348B44562421F2699B8B3 /* Sources */,
+				3F4B7F47FDE85ACC8F5A6BF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FordWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = FordWidgetExtension;
+			productReference = 218A24C622B3BFEFEE228CDC /* FordWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C60DB7AD7CEF1615D6852042 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					C37507E70ADFDFB33169A7B9 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					F046884FACF1B58DDBECADEC = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 847FF53E6DAEF32D9C854482 /* Build configuration list for PBXProject "FordWidget" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 28AE38027C96F03E1F22B708;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DA781945497DE5011E463705 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C37507E70ADFDFB33169A7B9 /* FordWidget */,
+				F046884FACF1B58DDBECADEC /* FordWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3F4B7F47FDE85ACC8F5A6BF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9327AD67C4AD5F4EFEDBD255 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC6E104DA32A201CACCED34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB69406CD7E2F50D694CFA35 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		965348B44562421F2699B8B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8A2B6F16E7318F603662AC9 /* FordAPI.swift in Sources */,
+				77275705749A5CCE11D4A9D1 /* FordCarWidget.swift in Sources */,
+				AE70A64E375B9AF834EF645C /* FordRegion.swift in Sources */,
+				74066AF793B68EFAB3246D13 /* Models.swift in Sources */,
+				664E9DA64CD5B67F176F0A89 /* Parser.swift in Sources */,
+				ADF546A5DCFE24E9B09A6074 /* Storage.swift in Sources */,
+				5D141579F278A05CEEB8462A /* VehicleCardView.swift in Sources */,
+				4BB12060BD7533957A1B8AC1 /* WireFormat.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B11FF1107788FDBB1C468530 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D7193C0FCFAE1AB5C29D229 /* AppModel.swift in Sources */,
+				B6190C831A489E94D476FB3D /* ContentView.swift in Sources */,
+				2D5F2B3E8AB5357931CC47F9 /* FordAPI.swift in Sources */,
+				4B6E8A651C1526D15E89E752 /* FordRegion.swift in Sources */,
+				A76AC52D9C4544126D6F29D4 /* Models.swift in Sources */,
+				275AF5272DA2C451F8282549 /* Parser.swift in Sources */,
+				E80B782064EA68B22FD5269F /* Storage.swift in Sources */,
+				077D0CDAF6BFF3851AE9307D /* VehicleCardView.swift in Sources */,
+				D83A2941278215882D2D3856 /* WebAuth.swift in Sources */,
+				CDFBCB3C162EF73FF8258A9E /* WireFormat.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FCB610E40B5F4A331BE470A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F046884FACF1B58DDBECADEC /* FordWidgetExtension */;
+			targetProxy = 1C080798DE5D79548C494D74 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1AEBEE5FC88DDF3BB0615EB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/FordWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID_PREFIX)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3E1F82B5EC613266F7A46D79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/FordWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID_PREFIX)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		61209C3574A42FE2C8EFBA1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/FordWidgetExtension.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID_PREFIX).widget";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		621639911913C5660D9DFC20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_ID_PREFIX = com.heyimada.fordwidget;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6CF756CD3B992EB799AB1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/FordWidgetExtension.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID_PREFIX).widget";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D24E1C741AD0CCE1CA0FD1A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_ID_PREFIX = com.heyimada.fordwidget;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6499C6B1098FD0798D0B65F0 /* Build configuration list for PBXNativeTarget "FordWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61209C3574A42FE2C8EFBA1B /* Debug */,
+				6CF756CD3B992EB799AB1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		847FF53E6DAEF32D9C854482 /* Build configuration list for PBXProject "FordWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				621639911913C5660D9DFC20 /* Debug */,
+				D24E1C741AD0CCE1CA0FD1A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D72DF4E1E50E198079B20534 /* Build configuration list for PBXNativeTarget "FordWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AEBEE5FC88DDF3BB0615EB5 /* Debug */,
+				3E1F82B5EC613266F7A46D79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C60DB7AD7CEF1615D6852042 /* Project object */;
+}
