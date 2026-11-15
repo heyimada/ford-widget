@@ -44,12 +44,12 @@ struct FordLogoView: View {
 
     var body: some View {
         if let injected {
-            injected.resizable().scaledToFit().frame(height: 24)
+            injected.resizable().scaledToFit().frame(height: 15)
         } else if Self.hasAsset {
-            Image("FordLogo").resizable().scaledToFit().frame(height: 24)
+            Image("FordLogo").resizable().scaledToFit().frame(height: 15)
         } else {
             Text("Ford")
-                .font(.custom("SnellRoundhand-Bold", size: 28))
+                .font(.custom("SnellRoundhand-Bold", size: 17))
                 .foregroundStyle(CardStyle.fordBlue)
         }
     }
@@ -62,32 +62,47 @@ struct VehicleCardView: View {
     @Environment(\.locale) private var locale
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 6) {
-                Text(snapshot.name)
-                    .font(.system(size: 26))
-                    .foregroundStyle(CardStyle.ink)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                Spacer(minLength: 6)
-                Image(systemName: "clock").font(.system(size: 14)).foregroundStyle(CardStyle.gray)
-                Text(age).font(.system(size: 14)).foregroundStyle(CardStyle.gray).lineLimit(1)
-                FordLogoView()
-            }
-            HStack(alignment: .bottom, spacing: 0) {
-                ZStack(alignment: .topLeading) {
-                    car.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            ZStack(alignment: .topLeading) {
+                car(width: width * 0.638)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                VStack(alignment: .leading, spacing: 7.7) {
+                    header
                     lockSymbol
                 }
-                .frame(maxWidth: .infinity)
-                VStack(spacing: 6) {
-                    row("Fuel level", snapshot.fuelPercent, unit: "%")
-                    row("Range", snapshot.rangeKm, unit: "km")
-                    row("Mileage", snapshot.odometerKm, unit: "km")
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 2)
+                rows
+                    .frame(width: width * 0.495)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
+        }
+        // The card artwork sits 17.5 pt from the edge, 1.5 pt inside the widget's 16 pt content margins.
+        .padding(1.5)
+    }
+
+    private var header: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Text(snapshot.name)
+                .font(.system(size: 20))
+                .foregroundStyle(CardStyle.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+            Spacer(minLength: 6)
+            HStack(spacing: 5) {
+                Image(systemName: "clock")
+                Text(age).lineLimit(1)
+            }
+            .font(.system(size: 12.5))
+            .foregroundStyle(CardStyle.gray)
+            FordLogoView()
+        }
+    }
+
+    private var rows: some View {
+        VStack(spacing: 5) {
+            row("Fuel level", snapshot.fuelPercent, unit: "%")
+            row("Range", snapshot.rangeKm, unit: "km")
+            row("Mileage", snapshot.odometerKm, unit: "km")
         }
     }
 
@@ -102,32 +117,38 @@ struct VehicleCardView: View {
     @ViewBuilder private var lockSymbol: some View {
         switch snapshot.lock {
         case .locked:
-            Image(systemName: "lock").font(.system(size: 24, weight: .light)).foregroundStyle(CardStyle.gray)
+            Image(systemName: "lock").font(.system(size: 21, weight: .light)).foregroundStyle(CardStyle.gray)
                 .accessibilityLabel("Locked")
         case .partlyLocked, .unlocked:
-            Image(systemName: "lock.open").font(.system(size: 24, weight: .light)).foregroundStyle(CardStyle.gray)
+            Image(systemName: "lock.open").font(.system(size: 21, weight: .light)).foregroundStyle(CardStyle.gray)
                 .accessibilityLabel("Unlocked")
         case .unknown:
             EmptyView()
         }
     }
 
-    @ViewBuilder private var car: some View {
-        if let carImage {
-            carImage.resizable().scaledToFit()
-        } else {
-            Image(systemName: "car.side.fill").resizable().scaledToFit()
-                .foregroundStyle(CardStyle.lightGray).padding(.horizontal, 18).padding(.vertical, 8)
+    // The car image has transparent margins, so it is drawn wider than the card's left half and bleeds into the padding.
+    @ViewBuilder private func car(width: CGFloat) -> some View {
+        Group {
+            if let carImage {
+                carImage.resizable().scaledToFit()
+            } else {
+                Image(systemName: "car.side.fill").resizable().scaledToFit()
+                    .foregroundStyle(CardStyle.lightGray).padding(.horizontal, 18).padding(.vertical, 8)
+            }
         }
+        .frame(width: width)
+        .padding(.leading, -13.3)
+        .padding(.bottom, -6)
     }
 
     private func row(_ label: LocalizedStringKey, _ value: Int?, unit: String) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            Text(label).font(.system(size: 15)).foregroundStyle(CardStyle.gray).lineLimit(1).minimumScaleFactor(0.7)
+        HStack(alignment: .firstTextBaseline, spacing: 3) {
+            Text(label).font(.system(size: 12)).foregroundStyle(CardStyle.gray).lineLimit(1).minimumScaleFactor(0.7)
             Spacer(minLength: 2)
             Text(value.map { $0.formatted(.number.locale(locale)) } ?? "–")
-                .font(.system(size: 28)).foregroundStyle(CardStyle.ink).lineLimit(1).minimumScaleFactor(0.5)
-            Text(unit).font(.system(size: 14)).foregroundStyle(CardStyle.gray)
+                .font(.system(size: 20).monospacedDigit()).foregroundStyle(CardStyle.ink).lineLimit(1).minimumScaleFactor(0.5)
+            Text(unit).font(.system(size: 13)).foregroundStyle(CardStyle.gray)
         }
     }
 }
