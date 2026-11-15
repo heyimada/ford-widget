@@ -105,7 +105,7 @@ enum FordAPI {
         guard let vehicles = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]],
               let first = vehicles.first, let vin = first["vin"] as? String else { throw FordError.noVehicle }
         let profile = first["profile"] as? [String: Any]
-        let nickName = (profile?["nickName"] as? String).flatMap { $0.isEmpty ? nil : $0 }
+        let nickName = (first["nickName"] as? String).flatMap { $0.isEmpty ? nil : $0 }
         let model = profile?["model"] as? String ?? "Ford"
         return GarageVehicle(vin: vin, name: nickName ?? model,
                              imageURL: (profile?["vehicleImage"] as? String).flatMap(URL.init(string:)))

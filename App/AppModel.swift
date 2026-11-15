@@ -51,7 +51,15 @@ final class AppModel {
     func refresh() async {
         await run {
             guard let session = self.session else { return }
-            try await self.fetchSnapshot(self.renewed(session))
+            var fresh = try await self.renewed(session)
+            if let vehicle = try? await FordAPI.firstVehicle(fresh),
+               vehicle.vin != fresh.vin || vehicle.name != fresh.vehicleName {
+                fresh.vin = vehicle.vin
+                fresh.vehicleName = vehicle.name
+                try SessionStore.save(fresh)
+                self.session = fresh
+            }
+            try await self.fetchSnapshot(fresh)
         }
     }
 
