@@ -64,7 +64,16 @@ extension VehicleSnapshot {
             rangeKm: roundedInt(metricValue(metrics, "fuelRange")),
             odometerKm: roundedInt(metricValue(metrics, "odometer")),
             lock: lockState(metrics["doorLockStatus"] as? [[String: Any]] ?? []),
-            updatedAt: updatedAt, fetchedAt: fetchedAt)
+            updatedAt: updatedAt, fetchedAt: fetchedAt, details: VehicleDetails.parse(metrics: metrics))
+    }
+}
+
+extension VehicleDetails {
+    // STUB: filled in after the failing cases in scripts/check-parser.swift were seen failing.
+    static func parse(metrics: [String: Any]) -> VehicleDetails {
+        VehicleDetails(doors: [], windows: [], hood: .unknown, alarm: .unknown, ignition: .unknown, remoteStartEndsAt: nil,
+                       tires: [], oilLifePercent: nil, batteryPercent: nil, batteryVoltage: nil,
+                       outsideTemperatureC: nil, coolantTemperatureC: nil, location: nil, warnings: [])
     }
 }
 

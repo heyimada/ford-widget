@@ -44,3 +44,16 @@ func pkceChallenge(verifier: String) -> String {
         .replacingOccurrences(of: "/", with: "_")
         .replacingOccurrences(of: "=", with: "")
 }
+
+// STUBS: filled in after the failing cases in scripts/check-parser.swift were seen failing.
+func parseGarage(_ data: Data) throws -> VehicleProfile {
+    throw FordError.noVehicle
+}
+
+func parseCommandId(_ data: Data) throws -> String {
+    throw FordError.noVehicle
+}
+
+func commandPhase(states: [String: Any], command: CarCommand, commandId: String) -> CommandPhase {
+    .sending
+}
