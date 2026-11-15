@@ -29,6 +29,7 @@ install() {
   xcrun simctl install "$udid" "$app"
   local data
   data="$(xcrun simctl get_app_container "$udid" "$bundle" data)"
+  rm -rf "$data/Documents/demo"
   mkdir -p "$data/Documents/demo"
   cp "$root/Fixtures/telemetry-full.json" "$root/Fixtures/garage.json" "$data/Documents/demo/"
   if [ -f "$root/build/parity/car.png" ]; then cp "$root/build/parity/car.png" "$data/Documents/demo/car.png"; fi
@@ -39,9 +40,14 @@ install() {
 }
 
 launch() {
+  local marker
+  marker="$(xcrun simctl get_app_container "$1" "$bundle" data)/Documents/demo/ready"
+  rm -f "$marker"
   xcrun simctl launch --terminate-running-process "$1" "$bundle" -demo -tab "$2" > /dev/null
+  for _ in $(seq 1 60); do [ -f "$marker" ] && break; sleep 0.5; done
+  [ -f "$marker" ] || { echo "FAIL: the app did not render the $2 tab within 30 s" >&2; return 1; }
   # The map needs a moment to fetch tiles and the address.
-  if [ "$2" = location ]; then sleep 6; else sleep 3; fi
+  if [ "$2" = location ]; then sleep 5; else sleep 1; fi
 }
 
 # The Duo writes <prefix>-outer.png / -inner.png for whichever display is lit; keep a single file per pose.

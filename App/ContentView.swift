@@ -42,6 +42,14 @@ struct MainTabs: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        #if DEBUG
+        // scripts/screens.sh waits for this marker instead of guessing how long a cold launch takes.
+        .task {
+            guard model.isDemo else { return }
+            try? await Task.sleep(for: .seconds(1))
+            try? Data().write(to: URL.documentsDirectory.appending(path: "demo/ready"))
+        }
+        #endif
     }
 }
 
