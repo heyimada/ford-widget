@@ -62,6 +62,7 @@ final class AppModel {
     // MARK: sign-in and fetching
 
     func signIn() async {
+        guard !isDemo else { return }
         await run {
             let region = FordRegion.byId[self.regionId] ?? .fallback
             let pkce = FordAPI.newPKCE()
@@ -129,19 +130,23 @@ final class AppModel {
             commandPhases = [command: .failed("Demo mode")]
             return
         }
-        if command == .unlock || command == .remoteStart {
-            switch await Self.confirm(command) {
-            case .confirmed: break
-            case .cancelled: return
-            case .failed(let message):
-                commandPhases = [command: .failed(message)]
-                return
-            }
-        }
         if command == .statusRefresh {
             guard updateCooldownRemaining() == 0 else { return }
         }
-        await run { try await self.runCommand(command) }
+        // Authentication runs inside `run` so the busy gate is held during the Touch ID / Face ID prompt: the prompt
+        // bounces scenePhase, and the refresh that triggers must not take the gate and drop the approved command.
+        await run {
+            if command == .unlock || command == .remoteStart {
+                switch await Self.confirm(command) {
+                case .confirmed: break
+                case .cancelled: return
+                case .failed(let message):
+                    self.commandPhases = [command: .failed(message)]
+                    return
+                }
+            }
+            try await self.runCommand(command)
+        }
     }
 
     private enum Confirmation {
@@ -168,8 +173,19 @@ final class AppModel {
         do {
             let fresh = try await renewed(session)
             let token = try await FordAPI.autonomicToken(refreshToken: fresh.refreshToken)
-            let id = try await FordAPI.send(command, vin: vin, token: token)
             if command == .statusRefresh { UserDefaults.standard.set(Date(), forKey: Self.lastUpdateKey) }
+            let id: String
+            do {
+                id = try await FordAPI.send(command, vin: vin, token: token)
+            } catch FordError.http(let status, let body) {
+                throw FordError.http(status, body)
+            } catch {
+                // Timeout after transmission or an unreadable 2xx: the car may still act on it.
+                try Task.checkCancellation()
+                commandPhases[command] = .failed(Self.unconfirmedMessage)
+                try? await fetchSnapshot(fresh, token: token)
+                return
+            }
             commandPhases[command] = .waiting
 
             var phase = CommandPhase.waiting
@@ -181,7 +197,7 @@ final class AppModel {
                 if phase != .waiting { break }
             }
             // The command may still have reached the car, so an unconfirmed send must not read as "nothing happened".
-            if phase == .waiting { phase = .failed("Sent, but the car has not confirmed yet. The status below is the latest the car reported.") }
+            if phase == .waiting { phase = .failed(Self.unconfirmedMessage) }
             try Task.checkCancellation()
             commandPhases[command] = phase
             if phase == .succeeded { forgetSuccess(of: command) }
@@ -196,6 +212,8 @@ final class AppModel {
             commandPhases[command] = .failed((error as? FordError)?.description ?? error.localizedDescription)
         }
     }
+
+    private static let unconfirmedMessage = "Sent, but the car has not confirmed yet. The status below is the latest the car reported."
 
     private func forgetSuccess(of command: CarCommand) {
         Task {
