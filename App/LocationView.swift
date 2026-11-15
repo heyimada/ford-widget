@@ -27,7 +27,14 @@ struct LocationView: View {
 
     private func map(_ location: CarLocation) -> some View {
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        return Map(position: $position) {
+        return GeometryReader { geo in
+            mapContent(location, coordinate: coordinate, fold: geo.reservedRegions(kind: .division).first(where: \.isActive)?.frame)
+        }
+    }
+
+    /// When the device is partially folded, the card stays left of the fold so its button never sits on the hinge.
+    private func mapContent(_ location: CarLocation, coordinate: CLLocationCoordinate2D, fold: CGRect?) -> some View {
+        Map(position: $position) {
             Annotation(model.snapshot?.name ?? "Car", coordinate: coordinate) {
                 Image(systemName: "car.fill")
                     .font(.title3)
@@ -39,14 +46,17 @@ struct LocationView: View {
             }
         }
         .mapStyle(.standard)
-        .safeAreaInset(edge: .bottom) { infoCard(location, coordinate: coordinate) }
+        .safeAreaInset(edge: .bottom) {
+            infoCard(location, coordinate: coordinate, maxWidth: min(560, (fold?.minX ?? .infinity) - 32))
+                .frame(maxWidth: .infinity, alignment: fold == nil ? .center : .leading)
+        }
         .task(id: coordinate.hashValueKey) {
             position = .camera(MapCamera(centerCoordinate: coordinate, distance: 1200))
             address = await Self.address(for: coordinate)
         }
     }
 
-    private func infoCard(_ location: CarLocation, coordinate: CLLocationCoordinate2D) -> some View {
+    private func infoCard(_ location: CarLocation, coordinate: CLLocationCoordinate2D, maxWidth: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(address ?? String(localized: "Looking up address…")).font(.headline)
@@ -61,7 +71,7 @@ struct LocationView: View {
             .controlSize(.large)
         }
         .padding(16)
-        .frame(maxWidth: 560, alignment: .leading)
+        .frame(maxWidth: maxWidth, alignment: .leading)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
