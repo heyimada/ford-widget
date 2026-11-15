@@ -10,9 +10,11 @@ bundle=com.heyimada.myford
 phone=54D9765F-8268-4B7F-8C9E-44C053E9D4E8
 duo_udid=FD3A2110-D222-45D1-9AA6-35265D0E30E1
 duo="${DUO:-$HOME/.claude/skills/iphone-duo-simulator/scripts/duo}"
-tabs=(overview location health vehicle)
+# SCREENS_TABS="location health" limits the run to those tabs.
+read -r -a tabs <<< "${SCREENS_TABS:-overview location health vehicle}"
 mkdir -p "$out"
-if [ "${SCREENS_ONLY:-both}" = both ]; then rm -f "$out"/*.png; fi
+if [ "${SCREENS_ONLY:-both}" = both ] && [ -z "${SCREENS_TABS:-}" ]; then rm -f "$out"/*.png; fi
+rm -f "$out"/.duo*.png
 
 xcodegen generate > /dev/null
 xcodebuild -project FordWidget.xcodeproj -scheme FordWidget -configuration Debug \
