@@ -29,8 +29,12 @@ final class WebAuth: NSObject, ASWebAuthenticationPresentationContextProviding {
 
     nonisolated func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         MainActor.assumeIsolated {
-            UIApplication.shared.connectedScenes
-                .compactMap { ($0 as? UIWindowScene)?.keyWindow }.first ?? ASPresentationAnchor()
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            // Sign-in is started from a visible screen, so a window scene always exists.
+            guard let scene = scenes.first(where: { $0.activationState == .foregroundActive }) ?? scenes.first else {
+                preconditionFailure("no window scene to present the sign-in sheet")
+            }
+            return scene.keyWindow ?? ASPresentationAnchor(windowScene: scene)
         }
     }
 }

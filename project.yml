@@ -1,7 +1,7 @@
 name: FordWidget
 options:
   deploymentTarget:
-    iOS: "18.0"
+    iOS: "27.1"
   createIntermediateGroups: true
 settings:
   base:
@@ -29,9 +29,11 @@ targets:
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         ITSAppUsesNonExemptEncryption: false
+        NSFaceIDUsageDescription: Confirm unlocking or starting your car.
     entitlements:
       path: App/FordWidget.entitlements
       properties:

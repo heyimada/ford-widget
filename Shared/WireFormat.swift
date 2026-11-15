@@ -44,3 +44,60 @@ func pkceChallenge(verifier: String) -> String {
         .replacingOccurrences(of: "/", with: "_")
         .replacingOccurrences(of: "=", with: "")
 }
+
+private func nonEmpty(_ value: Any?) -> String? {
+    (value as? String).flatMap { $0.isEmpty ? nil : $0 }
+}
+
+/// First vehicle of the garage response; HTTP status handling stays with the caller.
+func parseGarage(_ data: Data) throws -> VehicleProfile {
+    guard let vehicles = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]],
+          let first = vehicles.first, let vin = nonEmpty(first["vin"]) else { throw FordError.noVehicle }
+    let profile = first["profile"] as? [String: Any]
+    let model = nonEmpty(profile?["model"])
+    let year = (profile?["year"] as? NSNumber).map(\.intValue) ?? (profile?["year"] as? String).flatMap { Int($0) }
+    let capabilities = (first["capabilities"] as? [String: Any] ?? [:]).filter { $0.value as? String == "Display" }.keys
+    return VehicleProfile(
+        vin: vin,
+        name: nonEmpty(first["nickName"]) ?? model ?? "Ford",
+        model: model, year: year,
+        color: nonEmpty(first["color"]) ?? nonEmpty(profile?["paintDescription"]),
+        licensePlate: nonEmpty(first["licensePlate"]),
+        imageURL: nonEmpty(profile?["vehicleImage"]).flatMap(URL.init(string:)),
+        capabilities: Set(capabilities))
+}
+
+/// The command endpoint answers with the id the car's later state reports carry.
+func parseCommandId(_ data: Data) throws -> String {
+    let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+    let id = ["id", "commandId", "correlationId"].lazy.compactMap { key -> String? in
+        if let number = object?[key] as? NSNumber { return number.stringValue }
+        return nonEmpty(object?[key])
+    }.first
+    guard let id else {
+        throw FordError.decoding("no command id in the response")
+    }
+    return id
+}
+
+/// Where our command stands in the telemetry `states`. A state entry with another commandId is an older command's.
+func commandPhase(states: [String: Any], command: CarCommand, commandId: String) -> CommandPhase {
+    // The integration flattens a nested `commands` object to the root; a nested entry overwrites a root one, as there.
+    var all = states
+    if let nested = states["commands"] as? [String: Any] { all.merge(nested) { _, nested in nested } }
+    guard let state = (all[command.rawValue] ?? all[command.rawValue + "Command"]) as? [String: Any],
+          state["commandId"] as? String == commandId,
+          let value = state["value"] as? [String: Any],
+          let toState = (value["toState"] as? String)?.uppercased() else { return .waiting }
+    switch toState {
+    case "SUCCESS", "COMMAND_SUCCEEDED_ON_DEVICE":
+        return .succeeded
+    case "FAILURE", "COMMAND_FAILED_ON_DEVICE":
+        let failure = ((value["data"] as? [String: Any])?["commandError"] as? [String: Any])?["commandExecutionFailure"] as? [String: Any]
+        return .failed(nonEmpty(failure?["oemErrorContext"]) ?? "Failed")
+    case "EXPIRED":
+        return .expired
+    default:
+        return .waiting
+    }
+}

@@ -59,7 +59,8 @@ struct FordRegion: Equatable, Sendable {
         switch id {
         case "rest_of_europe": return "Other European countries"
         case "rest_of_world": return "Rest of the world"
-        default: return Locale.current.localizedString(forIdentifier: locale) ?? id
+        // Regions are countries; the locale's region part names the country ("de-DE" → "Germany").
+        default: return Locale.current.localizedString(forRegionCode: String(locale.suffix(2))) ?? id
         }
     }
 

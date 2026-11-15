@@ -1,12 +1,6 @@
 import Foundation
 import Security
 
-struct GarageVehicle {
-    var vin: String
-    var name: String
-    var imageURL: URL?
-}
-
 /// Wire details are copied from the ha-fordpass bridge; the older Ford headers break the token call.
 enum FordAPI {
     private static let foundational = "https://api.foundational.ford.com/api"
@@ -93,7 +87,7 @@ enum FordAPI {
         session.accessExpiresAt.timeIntervalSince(now) > 60 ? session : try await refresh(session, now: now)
     }
 
-    static func firstVehicle(_ session: FordSession) async throws -> GarageVehicle {
+    static func vehicleProfile(_ session: FordSession) async throws -> VehicleProfile {
         let region = region(of: session)
         let (data, status) = try await send(
             URL(string: garageURL)!,
@@ -102,13 +96,7 @@ enum FordAPI {
         guard status == 200 || status == 207 else {
             throw FordError.http(status, String(decoding: data, as: UTF8.self))
         }
-        guard let vehicles = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]],
-              let first = vehicles.first, let vin = first["vin"] as? String else { throw FordError.noVehicle }
-        let profile = first["profile"] as? [String: Any]
-        let nickName = (first["nickName"] as? String).flatMap { $0.isEmpty ? nil : $0 }
-        let model = profile?["model"] as? String ?? "Ford"
-        return GarageVehicle(vin: vin, name: nickName ?? model,
-                             imageURL: (profile?["vehicleImage"] as? String).flatMap(URL.init(string:)))
+        return try parseGarage(data)
     }
 
     static func downloadCarImage(from url: URL, session: FordSession) async throws {
@@ -138,34 +126,45 @@ enum FordAPI {
         return try parseTokenResponse(data: data, status: status).accessToken
     }
 
-    static func snapshot(for session: FordSession, token: String? = nil, now: Date = Date()) async throws -> VehicleSnapshot {
+    /// `fullState` is for the app: its detail screens need metrics beyond the four the widget card shows, which
+    /// websocket frames may not carry, so the GET poll is always merged in. The widget keeps the cheaper path.
+    static func snapshot(for session: FordSession, token: String? = nil, fullState: Bool = false, now: Date = Date()) async throws -> VehicleSnapshot {
         guard let vin = session.vin else { throw FordError.noVehicle }
         let bearer: String
         if let token { bearer = token } else { bearer = try await autonomicToken(refreshToken: session.refreshToken) }
-        let metrics = try await telemetry(vin: vin, token: bearer)
+        let metrics = try await telemetry(vin: vin, token: bearer, fullState: fullState)
         return VehicleSnapshot.parse(metrics: metrics, vin: vin, name: session.vehicleName ?? "Ford", fetchedAt: now)
     }
 
     /// Websocket first, merging frames until the four displayed metrics are in or 10 s pass. The `:query` POST
     /// variant is deliberately not used: it answers 502 from Germany.
-    static func telemetry(vin: String, token: String) async throws -> [String: Any] {
+    static func telemetry(vin: String, token: String, fullState: Bool = false) async throws -> [String: Any] {
         let streamed = await streamMetrics(vin: vin, token: token)
-        if isComplete(streamed) { return streamed }
+        if isComplete(streamed) && !fullState { return streamed }
         do {
             var polled = try await pollMetrics(vin: vin, token: token)
             mergeMetrics(into: &polled, frame: ["metrics": streamed])
             return polled
         } catch {
-            if streamed.isEmpty { throw error }
+            // The app keeps its last full snapshot rather than storing a partial one over it.
+            if streamed.isEmpty || fullState { throw error }
             return streamed
         }
     }
 
-    private static func pollMetrics(vin: String, token: String) async throws -> [String: Any] {
+    /// The whole poll response, so callers that need `states` (command progress) get them too.
+    static func telemetryResponse(vin: String, token: String) async throws -> [String: Any] {
         let url = URL(string: "\(autonomic)/telemetry/sources/fordpass/vehicles/\(vin)?lrdt=01-01-1970%2000:00:00")!
         let (data, status) = try await send(url, headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"])
         guard status == 200 else { throw FordError.http(status, String(decoding: data, as: UTF8.self)) }
-        guard let metrics = (try? JSONSerialization.jsonObject(with: data) as? [String: Any])?["metrics"] as? [String: Any],
+        guard let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            throw FordError.decoding("the car sent no telemetry")
+        }
+        return object
+    }
+
+    private static func pollMetrics(vin: String, token: String) async throws -> [String: Any] {
+        guard let metrics = try await telemetryResponse(vin: vin, token: token)["metrics"] as? [String: Any],
               !metrics.isEmpty else { throw FordError.decoding("the car sent no telemetry") }
         return metrics
     }
@@ -207,11 +206,13 @@ enum FordAPI {
         return metrics
     }
 
-    static func requestStatusRefresh(vin: String, token: String) async throws {
-        let body = try json(["properties": [String: Any](), "tags": [String: Any](), "type": "statusRefresh", "wakeUp": true])
+    /// Returns the command id that the car's later `states` entry carries.
+    static func send(_ command: CarCommand, vin: String, token: String) async throws -> String {
+        let body = try json(["properties": [String: Any](), "tags": [String: Any](), "type": command.rawValue, "wakeUp": true])
         let (data, status) = try await send(
             URL(string: "\(autonomic)/command/vehicles/\(vin)/commands")!, method: "POST",
             headers: ["Content-Type": "application/json", "Authorization": "Bearer \(token)"], body: body)
         guard (200...205).contains(status) else { throw FordError.http(status, String(decoding: data, as: UTF8.self)) }
+        return try parseCommandId(data)
     }
 }
