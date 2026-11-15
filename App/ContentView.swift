@@ -14,79 +14,64 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 22) {
-                if model.isSignedIn { signedIn } else { signedOut }
-                if !model.errorText.isEmpty {
-                    Text(model.errorText)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                        .textSelection(.enabled)
-                }
-            }
-            .padding(24)
-            .frame(maxWidth: .infinity)
+        Group {
+            if model.isSignedIn { MainTabs(model: model) } else { SignInView(model: model) }
         }
-        .scrollBounceBehavior(.basedOnSize)
         .onChange(of: scenePhase, initial: true) { _, phase in
             if phase == .active { Task { await model.refresh() } }
         }
     }
+}
 
-    private var signedOut: some View {
-        VStack(spacing: 22) {
-            Text("My Ford").font(.largeTitle)
-            Picker("Region", selection: $model.regionId) {
-                ForEach(FordRegion.all, id: \.id) { Text($0.displayName).tag($0.id) }
+struct MainTabs: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        TabView(selection: $model.selectedTab) {
+            Tab("Overview", systemImage: "car", value: AppTab.overview) {
+                NavigationStack { OverviewView(model: model) }
             }
-            .pickerStyle(.menu)
-            signInButton("Sign in with Ford")
+            Tab("Location", systemImage: "map", value: AppTab.location) {
+                NavigationStack { LocationView(model: model) }
+            }
+            Tab("Health", systemImage: "stethoscope", value: AppTab.health) {
+                NavigationStack { HealthView(model: model) }
+            }
+            Tab("Vehicle", systemImage: "info.circle", value: AppTab.vehicle) {
+                NavigationStack { VehicleView(model: model) }
+            }
         }
+        .tabViewStyle(.sidebarAdaptable)
     }
+}
 
-    private var signedIn: some View {
-        VStack(spacing: 22) {
-            if let snapshot = model.snapshot {
-                // Laid out at medium-widget size and scaled up, so the app shows exactly what the widget shows.
-                GeometryReader { geo in
-                    VehicleCardView(snapshot: snapshot, carImage: model.carImage, now: Date())
-                        .padding(16)
-                        .frame(width: 338, height: 158)
-                        .background(CardStyle.background, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
-                        .scaleEffect(geo.size.width / 338, anchor: .topLeading)
-                }
-                .aspectRatio(338 / 158, contentMode: .fit)
-            } else {
-                Text("No data yet").foregroundStyle(.secondary).frame(maxWidth: .infinity, minHeight: 158)
-            }
+/// Both refresh actions, on every tab. "Refresh" only reads Ford's cloud; "Update from car" wakes the car.
+struct CarToolbar: ToolbarContent {
+    let model: AppModel
+    @State private var confirmingUpdate = false
 
+    var body: some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
             Button { Task { await model.refresh() } } label: {
-                Text("Refresh").font(.title2).padding(.horizontal, 24)
+                Label("Refresh", systemImage: "arrow.clockwise")
             }
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .controlSize(.large)
             .disabled(model.isBusy)
-
-            Button("Ask car to refresh") { Task { await model.askCarToRefresh() } }
-                .font(.title2)
-                .disabled(model.isBusy)
-
-            Button("Sign out", role: .destructive) { model.signOut() }
-                .font(.title2)
-
-            if model.needsReauth { signInButton("Sign in again") }
+            Button { confirmingUpdate = true } label: {
+                Label("Update from car", systemImage: "antenna.radiowaves.left.and.right")
+            }
+            .disabled(model.isBusy)
+            .confirmationDialog("Wake the car?", isPresented: $confirmingUpdate, titleVisibility: .visible) {
+                if model.updateCooldownRemaining() == 0 {
+                    Button("Update from car") { Task { await model.perform(.statusRefresh) } }
+                }
+            } message: {
+                let wait = model.updateCooldownRemaining()
+                if wait == 0 {
+                    Text("This wakes the car to report fresh data. If it is in power-saving mode, doing this often can drain its 12V battery. Refresh only reads what Ford already has.")
+                } else {
+                    Text("The car was asked a moment ago. To protect its 12V battery, wait \(Int((wait / 60).rounded(.up))) more min before asking again. Refresh still works.")
+                }
+            }
         }
-    }
-
-    private func signInButton(_ title: LocalizedStringKey) -> some View {
-        Button { Task { await model.signIn() } } label: {
-            Text(title).font(.title3).padding(.horizontal, 16)
-        }
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.capsule)
-        .controlSize(.large)
-        .disabled(model.isBusy)
     }
 }

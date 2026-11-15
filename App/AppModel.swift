@@ -1,31 +1,65 @@
 import AuthenticationServices
+import LocalAuthentication
 import Observation
 import SwiftUI
 import WidgetKit
+
+enum AppTab: String, Hashable {
+    case overview, location, health, vehicle
+}
 
 @MainActor
 @Observable
 final class AppModel {
     private(set) var session: FordSession?
     private(set) var snapshot: VehicleSnapshot?
+    private(set) var profile: VehicleProfile?
     private(set) var carImage: Image?
     private(set) var errorText = ""
     private(set) var needsReauth = false
     private(set) var isBusy = false
+    /// The command in flight, or the last one's outcome until the next command starts.
+    private(set) var commandPhases: [CarCommand: CommandPhase] = [:]
+    private(set) var isDemo = false
+    var selectedTab: AppTab = .overview
     var regionId: String
+
+    /// Waking the car drains its 12 V battery while it is in power-saving mode, so update requests are rationed.
+    static let updateCooldown: TimeInterval = 15 * 60
+    private static let lastUpdateKey = "lastStatusRefreshSentAt"
 
     private let webAuth = WebAuth()
     private var current: Task<Void, Error>?
 
     init() {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-demo") {
+            regionId = FordRegion.default().id
+            loadDemo()
+            return
+        }
+        #endif
         let stored = SessionStore.load()
         session = stored
-        snapshot = stored == nil ? nil : SnapshotStore.latest()
+        // The widget may write a newer but thinner snapshot, so the app reads only its own file.
+        snapshot = stored == nil ? nil : SnapshotStore.load(.app)
+        profile = stored == nil ? nil : ProfileStore.load()
         carImage = CarImage.load()
         regionId = stored?.regionId ?? FordRegion.default().id
     }
 
     var isSignedIn: Bool { session != nil }
+
+    /// Seconds until "Update from car" may be sent again; 0 when it may be sent now.
+    func updateCooldownRemaining(now: Date = Date()) -> TimeInterval {
+        let sent = UserDefaults.standard.object(forKey: Self.lastUpdateKey) as? Date
+        return cooldownRemaining(lastSent: sent, now: now, interval: Self.updateCooldown)
+    }
+
+    var canLockUnlock: Bool { profile?.capabilities.contains("remoteLock") == true }
+    var canRemoteStart: Bool { profile?.capabilities.contains("remoteStart") == true }
+
+    // MARK: sign-in and fetching
 
     func signIn() async {
         await run {
@@ -36,12 +70,13 @@ final class AppModel {
             }
             let code = try await self.webAuth.authorizationCode(url: url)
             var session = try await FordAPI.signIn(code: code, verifier: pkce.verifier, region: region)
-            let vehicle = try await FordAPI.firstVehicle(session)
+            let vehicle = try await FordAPI.vehicleProfile(session)
             session.vin = vehicle.vin
             session.vehicleName = vehicle.name
             try Task.checkCancellation()
             try SessionStore.save(session)
             self.session = session
+            self.store(vehicle)
             if let imageURL = vehicle.imageURL {
                 try? await FordAPI.downloadCarImage(from: imageURL, session: session)
                 self.carImage = CarImage.load()
@@ -51,50 +86,125 @@ final class AppModel {
     }
 
     func refresh() async {
+        guard !isDemo else { return }
         await run {
             guard let session = self.session else { return }
             var fresh = try await self.renewed(session)
-            if let vehicle = try? await FordAPI.firstVehicle(fresh),
-               vehicle.vin != fresh.vin || vehicle.name != fresh.vehicleName {
-                fresh.vin = vehicle.vin
-                fresh.vehicleName = vehicle.name
+            if let vehicle = try? await FordAPI.vehicleProfile(fresh) {
                 try Task.checkCancellation()
-                try SessionStore.save(fresh)
-                self.session = fresh
+                if vehicle.vin != fresh.vin || vehicle.name != fresh.vehicleName {
+                    fresh.vin = vehicle.vin
+                    fresh.vehicleName = vehicle.name
+                    try SessionStore.save(fresh)
+                    self.session = fresh
+                }
+                self.store(vehicle)
             }
             try await self.fetchSnapshot(fresh)
         }
     }
 
-    /// Sends statusRefresh, then polls every 10 s for up to 60 s until the car reports something newer.
-    func askCarToRefresh() async {
-        await run {
-            guard let session = self.session, let vin = session.vin else { return }
-            let fresh = try await self.renewed(session)
-            let token = try await FordAPI.autonomicToken(refreshToken: fresh.refreshToken)
-            let baseline = self.snapshot?.updatedAt
-            try await FordAPI.requestStatusRefresh(vin: vin, token: token)
-            for _ in 0..<6 {
-                try await Task.sleep(for: .seconds(10))
-                let latest = try await FordAPI.snapshot(for: fresh, token: token)
-                try self.store(latest)
-                if let updated = latest.updatedAt, baseline.map({ updated > $0 }) ?? true { break }
-            }
-        }
-    }
-
     func signOut() {
+        guard !isDemo else { return }
         current?.cancel()
         SessionStore.clear()
         SnapshotStore.clear()
+        ProfileStore.clear()
         CarImage.clear()
         session = nil
         snapshot = nil
+        profile = nil
         carImage = nil
         errorText = ""
         needsReauth = false
+        commandPhases = [:]
         WidgetCenter.shared.reloadAllTimelines()
     }
+
+    // MARK: commands
+
+    func perform(_ command: CarCommand) async {
+        guard !isBusy else { return }
+        if isDemo {
+            commandPhases = [command: .failed("Demo mode")]
+            return
+        }
+        if command == .unlock || command == .remoteStart {
+            switch await Self.confirm(command) {
+            case .confirmed: break
+            case .cancelled: return
+            case .failed(let message):
+                commandPhases = [command: .failed(message)]
+                return
+            }
+        }
+        if command == .statusRefresh {
+            guard updateCooldownRemaining() == 0 else { return }
+        }
+        await run { try await self.runCommand(command) }
+    }
+
+    private enum Confirmation {
+        case confirmed, cancelled
+        case failed(String)
+    }
+
+    private static func confirm(_ command: CarCommand) async -> Confirmation {
+        let reason = command == .unlock ? "Confirm unlocking your car." : "Confirm starting your car."
+        do {
+            let ok = try await LAContext().evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)
+            return ok ? .confirmed : .cancelled
+        } catch let error as LAError where [.userCancel, .appCancel, .systemCancel].contains(error.code) {
+            return .cancelled
+        } catch {
+            return .failed(error.localizedDescription)
+        }
+    }
+
+    /// Polls the telemetry `states` for our command id with growing delays (2, 4, … 18 s: about 90 s in all).
+    private func runCommand(_ command: CarCommand) async throws {
+        guard let session, let vin = session.vin else { return }
+        commandPhases = [command: .sending]
+        do {
+            let fresh = try await renewed(session)
+            let token = try await FordAPI.autonomicToken(refreshToken: fresh.refreshToken)
+            let id = try await FordAPI.send(command, vin: vin, token: token)
+            if command == .statusRefresh { UserDefaults.standard.set(Date(), forKey: Self.lastUpdateKey) }
+            commandPhases[command] = .waiting
+
+            var phase = CommandPhase.waiting
+            for delay in stride(from: 2, through: 18, by: 2) {
+                try await Task.sleep(for: .seconds(delay))
+                // A failed poll is not a failed command: try again at the next delay.
+                guard let response = try? await FordAPI.telemetryResponse(vin: vin, token: token) else { continue }
+                phase = commandPhase(states: response["states"] as? [String: Any] ?? [:], command: command, commandId: id)
+                if phase != .waiting { break }
+            }
+            if phase == .waiting { phase = .failed("The car did not answer in time.") }
+            try Task.checkCancellation()
+            commandPhases[command] = phase
+            if phase == .succeeded {
+                forgetSuccess(of: command)
+                try await fetchSnapshot(fresh, token: token)
+            }
+        } catch {
+            if Task.isCancelled { throw error }
+            if case FordError.reauthRequired = error {
+                commandPhases = [:]
+                throw error
+            }
+            commandPhases[command] = .failed((error as? FordError)?.description ?? error.localizedDescription)
+        }
+    }
+
+    private func forgetSuccess(of command: CarCommand) {
+        Task {
+            try? await Task.sleep(for: .seconds(6))
+            if commandPhases[command] == .succeeded { commandPhases[command] = nil }
+        }
+    }
+
+    // MARK: plumbing
 
     /// Ford token refresh is app-only: the widget never writes the Keychain.
     private func renewed(_ session: FordSession) async throws -> FordSession {
@@ -107,8 +217,8 @@ final class AppModel {
         return fresh
     }
 
-    private func fetchSnapshot(_ session: FordSession) async throws {
-        try store(try await FordAPI.snapshot(for: session))
+    private func fetchSnapshot(_ session: FordSession, token: String? = nil) async throws {
+        try store(try await FordAPI.snapshot(for: session, token: token))
     }
 
     /// Main-actor isolated, so a sign-out cannot land between the cancellation check and the writes.
@@ -117,6 +227,11 @@ final class AppModel {
         snapshot = latest
         SnapshotStore.save(latest, as: .app)
         WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func store(_ vehicle: VehicleProfile) {
+        profile = vehicle
+        ProfileStore.save(vehicle)
     }
 
     /// Runs one operation at a time as a task that `signOut()` cancels, so a late result cannot resurrect the session.
@@ -144,4 +259,30 @@ final class AppModel {
             errorText = error.localizedDescription
         }
     }
+
+    #if DEBUG
+    /// Screenshot mode: fixtures from the app's Documents/demo, no Keychain, no network.
+    private func loadDemo() {
+        isDemo = true
+        let arguments = ProcessInfo.processInfo.arguments
+        if let flag = arguments.firstIndex(of: "-tab"), arguments.indices.contains(flag + 1),
+           let tab = AppTab(rawValue: arguments[flag + 1]) {
+            selectedTab = tab
+        }
+        let directory = URL.documentsDirectory.appending(path: "demo")
+        guard let telemetry = try? Data(contentsOf: directory.appending(path: "telemetry-full.json")),
+              let metrics = (try? JSONSerialization.jsonObject(with: telemetry) as? [String: Any])?["metrics"] as? [String: Any],
+              let garage = try? Data(contentsOf: directory.appending(path: "garage.json")),
+              let vehicle = try? parseGarage(garage) else {
+            errorText = "Demo files missing in Documents/demo."
+            return
+        }
+        profile = vehicle
+        carImage = CarImage.load(from: directory.appending(path: "car.png"))
+        snapshot = VehicleSnapshot.parse(metrics: metrics, vin: vehicle.vin, name: vehicle.name, fetchedAt: Date())
+        regionId = "deu"
+        session = FordSession(regionId: "deu", accessToken: "demo", refreshToken: "demo",
+                              accessExpiresAt: .distantFuture, vin: vehicle.vin, vehicleName: vehicle.name)
+    }
+    #endif
 }

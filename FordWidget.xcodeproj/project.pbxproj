@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01C385917DBBA76BE0A85308 /* VehicleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999432C368CA3FE6AC70AEC9 /* VehicleView.swift */; };
 		077D0CDAF6BFF3851AE9307D /* VehicleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */; };
+		216F6036BAD5E6C474D65AED /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A91DB704C553D0FE92E6A3 /* SignInView.swift */; };
 		275AF5272DA2C451F8282549 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3923F4DDC828D8A350B52B /* Parser.swift */; };
 		2D5F2B3E8AB5357931CC47F9 /* FordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7175986E9D8DF98D58A1424 /* FordAPI.swift */; };
+		3FB0DFD6372D1A57B226C663 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED5A2C62CD9A118E417B0D /* LocationView.swift */; };
 		4B6E8A651C1526D15E89E752 /* FordRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714043C5216391E21338B400 /* FordRegion.swift */; };
 		4BB12060BD7533957A1B8AC1 /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA95462F09DBE276BE0E5E /* WireFormat.swift */; };
+		53644CE692875E9993BF21A0 /* WarningNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FD0D657831470E57CCD1F /* WarningNames.swift */; };
 		5D141579F278A05CEEB8462A /* VehicleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */; };
+		5F682AC497AEEF116E5D2FBB /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63901085ABCF24033B88D2F1 /* HealthView.swift */; };
+		5FCB3FAED35D213C727D6974 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E577156737A384DC5DC569 /* OverviewView.swift */; };
 		664E9DA64CD5B67F176F0A89 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3923F4DDC828D8A350B52B /* Parser.swift */; };
 		74066AF793B68EFAB3246D13 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8818432B868110209D29277E /* Models.swift */; };
 		77275705749A5CCE11D4A9D1 /* FordCarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD606B37A40B78BD9A2250 /* FordCarWidget.swift */; };
@@ -23,7 +29,9 @@
 		ADF546A5DCFE24E9B09A6074 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E97B59DA98F214498DB676 /* Storage.swift */; };
 		AE70A64E375B9AF834EF645C /* FordRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714043C5216391E21338B400 /* FordRegion.swift */; };
 		B6190C831A489E94D476FB3D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150C3B4B2D7CD2343F76096 /* ContentView.swift */; };
+		BED0BE9416C7A160834711FD /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647F77432358950617A525BA /* Formatting.swift */; };
 		C0CB61CEAC1D23CD87FB6950 /* FordWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 218A24C622B3BFEFEE228CDC /* FordWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CCEF4D28A50524B866C749C5 /* StatusTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D40C2A6AB059F92DF7F99E /* StatusTiles.swift */; };
 		CDFBCB3C162EF73FF8258A9E /* WireFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62EA95462F09DBE276BE0E5E /* WireFormat.swift */; };
 		D83A2941278215882D2D3856 /* WebAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DEA921BEB9F1100737F5C17 /* WebAuth.swift */; };
 		E80B782064EA68B22FD5269F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E97B59DA98F214498DB676 /* Storage.swift */; };
@@ -60,15 +68,23 @@
 		41E97B59DA98F214498DB676 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		5C3923F4DDC828D8A350B52B /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		62EA95462F09DBE276BE0E5E /* WireFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireFormat.swift; sourceTree = "<group>"; };
+		63901085ABCF24033B88D2F1 /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
+		63E577156737A384DC5DC569 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		647F77432358950617A525BA /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		6DA5E9D18AB71E5D190B4F7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		714043C5216391E21338B400 /* FordRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FordRegion.swift; sourceTree = "<group>"; };
 		73A2F41C77CD32DCFF6E7F9F /* FordWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FordWidgetExtension.entitlements; sourceTree = "<group>"; };
 		7CE0DFD2E4F92D652D272287 /* FordWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FordWidget.entitlements; sourceTree = "<group>"; };
 		7DEA921BEB9F1100737F5C17 /* WebAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAuth.swift; sourceTree = "<group>"; };
+		83D40C2A6AB059F92DF7F99E /* StatusTiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTiles.swift; sourceTree = "<group>"; };
+		876FD0D657831470E57CCD1F /* WarningNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningNames.swift; sourceTree = "<group>"; };
 		8818432B868110209D29277E /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		999432C368CA3FE6AC70AEC9 /* VehicleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleView.swift; sourceTree = "<group>"; };
 		9EBD606B37A40B78BD9A2250 /* FordCarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FordCarWidget.swift; sourceTree = "<group>"; };
 		AA3E685FC02222A097C60366 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		B7C1F35E2BC01CC38FA99BF2 /* FordWidget.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FordWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2A91DB704C553D0FE92E6A3 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		D9ED5A2C62CD9A118E417B0D /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		E150C3B4B2D7CD2343F76096 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E664B7A39D3DDDF68414B1FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E7D498C1FC16FED886B92F89 /* VehicleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCardView.swift; sourceTree = "<group>"; };
@@ -117,7 +133,15 @@
 				AA3E685FC02222A097C60366 /* AppModel.swift */,
 				E150C3B4B2D7CD2343F76096 /* ContentView.swift */,
 				7CE0DFD2E4F92D652D272287 /* FordWidget.entitlements */,
+				647F77432358950617A525BA /* Formatting.swift */,
+				63901085ABCF24033B88D2F1 /* HealthView.swift */,
 				30141898A01F1EB902BB7B10 /* Info.plist */,
+				D9ED5A2C62CD9A118E417B0D /* LocationView.swift */,
+				63E577156737A384DC5DC569 /* OverviewView.swift */,
+				D2A91DB704C553D0FE92E6A3 /* SignInView.swift */,
+				83D40C2A6AB059F92DF7F99E /* StatusTiles.swift */,
+				999432C368CA3FE6AC70AEC9 /* VehicleView.swift */,
+				876FD0D657831470E57CCD1F /* WarningNames.swift */,
 				7DEA921BEB9F1100737F5C17 /* WebAuth.swift */,
 			);
 			path = App;
@@ -255,10 +279,18 @@
 				B6190C831A489E94D476FB3D /* ContentView.swift in Sources */,
 				2D5F2B3E8AB5357931CC47F9 /* FordAPI.swift in Sources */,
 				4B6E8A651C1526D15E89E752 /* FordRegion.swift in Sources */,
+				BED0BE9416C7A160834711FD /* Formatting.swift in Sources */,
+				5F682AC497AEEF116E5D2FBB /* HealthView.swift in Sources */,
+				3FB0DFD6372D1A57B226C663 /* LocationView.swift in Sources */,
 				A76AC52D9C4544126D6F29D4 /* Models.swift in Sources */,
+				5FCB3FAED35D213C727D6974 /* OverviewView.swift in Sources */,
 				275AF5272DA2C451F8282549 /* Parser.swift in Sources */,
+				216F6036BAD5E6C474D65AED /* SignInView.swift in Sources */,
+				CCEF4D28A50524B866C749C5 /* StatusTiles.swift in Sources */,
 				E80B782064EA68B22FD5269F /* Storage.swift in Sources */,
 				077D0CDAF6BFF3851AE9307D /* VehicleCardView.swift in Sources */,
+				01C385917DBBA76BE0A85308 /* VehicleView.swift in Sources */,
+				53644CE692875E9993BF21A0 /* WarningNames.swift in Sources */,
 				D83A2941278215882D2D3856 /* WebAuth.swift in Sources */,
 				CDFBCB3C162EF73FF8258A9E /* WireFormat.swift in Sources */,
 			);
@@ -380,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -459,7 +491,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

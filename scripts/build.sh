@@ -46,6 +46,7 @@ echo "ok: appex id $ext_id starts with $app_id"
 check "CFBundleShortVersionString matches" "$(plist "$appex" CFBundleShortVersionString)" "$(plist "$app" CFBundleShortVersionString)"
 check "CFBundleVersion matches" "$(plist "$appex" CFBundleVersion)" "$(plist "$app" CFBundleVersion)"
 check "app CFBundleDisplayName" "$(plist "$app" CFBundleDisplayName)" "My Ford"
+check "app NSFaceIDUsageDescription" "$(plutil -extract NSFaceIDUsageDescription raw -o - "$app/Info.plist" 2>/dev/null || echo MISSING)" "Confirm unlocking or starting your car."
 check "app AppGroupID" "$(plist "$app" AppGroupID)" "group.$prefix"
 check "appex AppGroupID" "$(plist "$appex" AppGroupID)" "group.$prefix"
 
