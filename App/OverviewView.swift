@@ -186,7 +186,7 @@ extension CarCommand {
         case .sending: return progressive
         case .waiting: return "Waiting for car…"
         case .succeeded: return done
-        case .failed(let message): return LocalizedStringKey(message)
+        case .failed(let message): return "\(message)"
         case .expired: return "The command expired."
         }
     }

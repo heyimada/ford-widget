@@ -28,7 +28,8 @@ struct LocationView: View {
     private func map(_ location: CarLocation) -> some View {
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
         return GeometryReader { geo in
-            mapContent(location, coordinate: coordinate, fold: geo.reservedRegions(kind: .division).first(where: \.isActive)?.frame)
+            mapContent(location, coordinate: coordinate, fold: geo.reservedRegions(kind: .division)
+                .first { $0.isActive && $0.frame.height > $0.frame.width }?.frame)
         }
     }
 
