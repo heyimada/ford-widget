@@ -84,20 +84,47 @@ enum SnapshotStore {
         try? encoder.encode(snapshot).write(to: url, options: .atomic)
     }
 
-    static func latest() -> VehicleSnapshot? {
+    private static func read(_ writers: [Writer]) -> [VehicleSnapshot] {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        return [Writer.app, .widget]
+        return writers
             .compactMap { AppGroup.file($0.fileName) }
             .compactMap { try? Data(contentsOf: $0) }
             .compactMap { try? decoder.decode(VehicleSnapshot.self, from: $0) }
-            .max { $0.fetchedAt < $1.fetchedAt }
+    }
+
+    /// Newest of both files; the widget's thinner snapshot may win, so the app's detail screens use `load(.app)`.
+    static func latest() -> VehicleSnapshot? {
+        read([.app, .widget]).max { $0.fetchedAt < $1.fetchedAt }
+    }
+
+    static func load(_ writer: Writer) -> VehicleSnapshot? {
+        read([writer]).first
     }
 
     static func clear() {
         for writer in [Writer.app, .widget] {
             if let url = AppGroup.file(writer.fileName) { try? FileManager.default.removeItem(at: url) }
         }
+    }
+}
+
+/// The garage profile (capabilities, plate, colour). Written by the app only.
+enum ProfileStore {
+    private static let fileName = "profile.json"
+
+    static func save(_ profile: VehicleProfile) {
+        guard let url = AppGroup.file(fileName) else { return }
+        try? JSONEncoder().encode(profile).write(to: url, options: .atomic)
+    }
+
+    static func load() -> VehicleProfile? {
+        guard let url = AppGroup.file(fileName), let data = try? Data(contentsOf: url) else { return nil }
+        return try? JSONDecoder().decode(VehicleProfile.self, from: data)
+    }
+
+    static func clear() {
+        if let url = AppGroup.file(fileName) { try? FileManager.default.removeItem(at: url) }
     }
 }
 
@@ -125,8 +152,11 @@ enum CarImage {
     }
 
     static func load() -> Image? {
-        guard let url = AppGroup.file(fileName),
-              let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+        AppGroup.file(fileName).flatMap(load(from:))
+    }
+
+    static func load(from url: URL) -> Image? {
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
         return Image(decorative: image, scale: 1)
     }
