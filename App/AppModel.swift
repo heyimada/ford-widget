@@ -185,7 +185,8 @@ final class AppModel {
             try Task.checkCancellation()
             commandPhases[command] = phase
             if phase == .succeeded { forgetSuccess(of: command) }
-            try await fetchSnapshot(fresh, token: token)
+            // A failed refresh must not overwrite the command's own outcome.
+            try? await fetchSnapshot(fresh, token: token)
         } catch {
             if Task.isCancelled { throw error }
             if case FordError.reauthRequired = error {
