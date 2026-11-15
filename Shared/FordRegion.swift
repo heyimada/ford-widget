@@ -56,8 +56,25 @@ struct FordRegion: Equatable, Sendable {
     }
 
     var displayName: String {
-        Locale.current.localizedString(forRegionCode: String(countryCode.prefix(2))) ?? id
+        switch id {
+        case "rest_of_europe": return "Other European countries"
+        case "rest_of_world": return "Rest of the world"
+        default: return Locale.current.localizedString(forIdentifier: locale) ?? id
+        }
     }
 
-    func authorizeURL(codeChallenge: String) -> String { "" }
+    private var authBase: String {
+        "\(loginHost)/\(Self.oauthId)/B2C_1A_SignInSignUp_\(locale)/oauth2/v2.0"
+    }
+
+    var tokenURL: URL { URL(string: "\(authBase)/token")! }
+
+    // Built as a literal string: URLComponents would re-encode the pre-encoded "%20" scope and the redirect URI.
+    func authorizeURL(codeChallenge: String) -> String {
+        let client = Self.clientId
+        return "\(authBase)/authorize?redirect_uri=\(Self.redirectURI)&response_type=code&max_age=3600"
+            + "&code_challenge=\(codeChallenge)&code_challenge_method=S256&scope=%20\(client)%20openid"
+            + "&client_id=\(client)&ui_locales=\(locale)&language_code=\(locale)"
+            + "&ford_application_id=\(appId)&country_code=\(countryCode)"
+    }
 }
