@@ -146,7 +146,8 @@ enum FordAPI {
             mergeMetrics(into: &polled, frame: ["metrics": streamed])
             return polled
         } catch {
-            if streamed.isEmpty { throw error }
+            // The app keeps its last full snapshot rather than storing a partial one over it.
+            if streamed.isEmpty || fullState { throw error }
             return streamed
         }
     }
