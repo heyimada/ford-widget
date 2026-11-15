@@ -281,6 +281,18 @@ func checkLegacySnapshot() {
     expect(roundTrip?.details, parse(metrics(of: "telemetry-full.json")).details, "S12: snapshot with details round-trips")
 }
 
+func checkCooldown() {
+    // Waking the car drains its 12 V battery in power-saving mode, so repeated update requests are held back.
+    let now = Date(timeIntervalSince1970: 1_000_000)
+    let fifteen: TimeInterval = 15 * 60
+    expect(cooldownRemaining(lastSent: nil, now: now, interval: fifteen), 0, "K13: never sent -> may ask")
+    expect(cooldownRemaining(lastSent: now.addingTimeInterval(-300), now: now, interval: fifteen), 600, "K13: sent 5 min ago -> 10 min left")
+    expect(cooldownRemaining(lastSent: now.addingTimeInterval(-fifteen), now: now, interval: fifteen), 0, "K13: exactly the interval ago -> may ask")
+    expect(cooldownRemaining(lastSent: now.addingTimeInterval(-3600), now: now, interval: fifteen), 0, "K13: long ago -> may ask")
+    expect(cooldownRemaining(lastSent: now.addingTimeInterval(5000), now: now, interval: fifteen), fifteen,
+           "K13: a send dated in the future (clock change) never blocks longer than the interval")
+}
+
 @main
 struct CheckParser {
     static func main() {
@@ -401,6 +413,7 @@ struct CheckParser {
         checkGarage()
         checkCommands()
         checkLegacySnapshot()
+        checkCooldown()
 
         for f in failures { print(f) }
         if failures.isEmpty {

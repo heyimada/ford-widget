@@ -128,3 +128,10 @@ enum FordError: Error, CustomStringConvertible, LocalizedError {
 
     var errorDescription: String? { description }
 }
+
+/// Seconds left before the car may be woken again; 0 when it may be asked now.
+func cooldownRemaining(lastSent: Date?, now: Date, interval: TimeInterval) -> TimeInterval {
+    guard let lastSent else { return 0 }
+    let remaining = interval - now.timeIntervalSince(lastSent)
+    return min(max(remaining, 0), interval)
+}
