@@ -21,6 +21,8 @@ final class AppModel {
     /// The command in flight, or the last one's outcome until the next command starts.
     private(set) var commandPhases: [CarCommand: CommandPhase] = [:]
     private(set) var isDemo = false
+    /// Demo only: start every scroll view at its end, so screenshots reach the last tiles and sections.
+    private(set) var demoScrollsToBottom = false
     var selectedTab: AppTab = .overview
     var regionId: String
 
@@ -283,6 +285,7 @@ final class AppModel {
     private func loadDemo() {
         isDemo = true
         let arguments = ProcessInfo.processInfo.arguments
+        demoScrollsToBottom = arguments.contains("-scroll-bottom")
         if let flag = arguments.firstIndex(of: "-tab"), arguments.indices.contains(flag + 1),
            let tab = AppTab(rawValue: arguments[flag + 1]) {
             selectedTab = tab

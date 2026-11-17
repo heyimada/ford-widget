@@ -72,7 +72,7 @@ Every check is a script you can run again. None of them contacts Ford.
 | `scripts/build.sh` | Simulator and device builds, plus checks that the widget is embedded and configured and that the Face ID usage text exists. |
 | `scripts/render-card.sh` | Renders the widget card to `build/card.png` on macOS. |
 | `scripts/parity.sh` | Compares the card with a screenshot of the original widget and prints the pixel difference. |
-| `scripts/screens.sh` | Screenshots every tab on iPhone 18 Pro and on each iPhone Duo pose, from demo data. The Duo poses need a `duo` helper that presses Device Hub's fold buttons, which needs Accessibility permission. Set `DUO` to its path. Without it, the script skips the Duo. |
+| `scripts/screens.sh` | Screenshots every tab on iPhone 18 Pro and on each iPhone Duo pose, from demo data. On iPhone it also captures the end of Overview and Health (`*-bottom.png`), where the warnings are. See `docs/checks/warnings/`. The Duo poses need a `duo` helper that presses Device Hub's fold buttons, which needs Accessibility permission. Set `DUO` to its path. Without it, the script skips the Duo. |
 | `scripts/make-icon.swift` | Draws the app icon and its dark and tinted variants. |
 
 The fixtures come from a real car with the VIN, location, plate and all ids replaced.

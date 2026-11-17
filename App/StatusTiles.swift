@@ -115,12 +115,15 @@ struct StatusTiles: View {
     }
 
     private var warningTile: some View {
-        guard let warnings = details?.warnings else {
+        guard let lit = details?.warnings else {
             return StatusTile(title: "Warnings", symbol: "exclamationmark.triangle", value: unknown)
         }
-        return StatusTile(title: "Warnings", symbol: "exclamationmark.triangle",
-                          value: warnings.isEmpty ? String(localized: "None") : "\(warnings.count)",
+        let warnings = lit.filter(WarningNames.isWarning)
+        if warnings.isEmpty {
+            return StatusTile(title: "Warnings", symbol: "checkmark.circle", value: String(localized: "None"))
+        }
+        return StatusTile(title: "Warnings", symbol: "exclamationmark.triangle", value: "\(warnings.count)",
                           detail: warnings.prefix(2).map(WarningNames.title(for:)).joined(separator: ", "),
-                          attention: !warnings.isEmpty)
+                          attention: true)
     }
 }

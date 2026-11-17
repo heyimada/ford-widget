@@ -51,6 +51,19 @@ enum WarningNames {
         "waterInFuel": ("Water in fuel", "drop.triangle"),
     ]
 
+    /// Lights that report a normal state rather than a fault: shown in Health as indicators, never counted as warnings.
+    /// Unknown keys stay warnings, so a fault the table does not know about is never hidden.
+    private static let informational: Set<String> = [
+        "fastenSeatBeltWarning",
+        "startStopEngineWarning",
+        "tractionControlEvent",
+        "dieselPreHeat",
+    ]
+
+    static func isWarning(_ key: String) -> Bool {
+        !informational.contains(key)
+    }
+
     static func title(for key: String) -> String {
         table[key]?.title ?? deCamelCased(key)
     }

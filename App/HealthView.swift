@@ -7,12 +7,21 @@ struct HealthView: View {
     private var details: VehicleDetails? { model.snapshot?.details }
 
     var body: some View {
-        List {
-            tires
-            oil
-            battery
-            coolant
-            warnings
+        ScrollViewReader { proxy in
+            List {
+                tires
+                oil
+                battery
+                coolant
+                warnings
+            }
+            .task {
+                // A List ignores defaultScrollAnchor, so demo screenshots scroll to the last section explicitly.
+                guard model.demoScrollsToBottom else { return }
+                try? await Task.sleep(for: .milliseconds(300))
+                let hasIndicators = details?.warnings.contains { !WarningNames.isWarning($0) } ?? false
+                proxy.scrollTo(hasIndicators ? "indicators" : "warnings", anchor: .bottom)
+            }
         }
         .refreshable { await model.refresh() }
         .navigationTitle("Health")
@@ -96,18 +105,33 @@ struct HealthView: View {
     }
 
     private var warnings: some View {
-        Section("Warning lights") {
-            if let warnings = details?.warnings {
-                if warnings.isEmpty {
-                    Label("No warning lights", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+        let lit = details?.warnings
+        let warnings = lit?.filter(WarningNames.isWarning)
+        let indicators = lit?.filter { !WarningNames.isWarning($0) } ?? []
+        return Group {
+            Section("Warning lights") {
+                if let warnings {
+                    if warnings.isEmpty {
+                        Label("No warning lights", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                    } else {
+                        ForEach(warnings, id: \.self) { key in
+                            Label(WarningNames.title(for: key), systemImage: WarningNames.symbol(for: key))
+                                .foregroundStyle(.orange)
+                        }
+                    }
                 } else {
-                    ForEach(warnings, id: \.self) { key in
+                    Text("Unknown").foregroundStyle(.secondary)
+                }
+            }
+            .id("warnings")
+            if !indicators.isEmpty {
+                Section("Indicators") {
+                    ForEach(indicators, id: \.self) { key in
                         Label(WarningNames.title(for: key), systemImage: WarningNames.symbol(for: key))
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(.secondary)
                     }
                 }
-            } else {
-                Text("Unknown").foregroundStyle(.secondary)
+                .id("indicators")
             }
         }
     }

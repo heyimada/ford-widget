@@ -32,6 +32,7 @@ struct OverviewView: View {
             .frame(maxWidth: .infinity)
         }
         .scrollBounceBehavior(.basedOnSize)
+        .defaultScrollAnchor(model.demoScrollsToBottom ? .bottom : nil)
         .refreshable { await model.refresh() }
     }
 
@@ -62,6 +63,7 @@ struct OverviewView: View {
             StatusTiles(details: model.snapshot?.details)
                 .padding()
         }
+        .defaultScrollAnchor(model.demoScrollsToBottom ? .bottom : nil)
         .refreshable { await model.refresh() }
     }
 }

@@ -39,11 +39,12 @@ install() {
   xcrun simctl terminate "$udid" "$bundle" > /dev/null
 }
 
+# launch <udid> <tab> [extra app arguments, e.g. -scroll-bottom]
 launch() {
   local marker
   marker="$(xcrun simctl get_app_container "$1" "$bundle" data)/Documents/demo/ready"
   rm -f "$marker"
-  xcrun simctl launch --terminate-running-process "$1" "$bundle" -demo -tab "$2" > /dev/null
+  xcrun simctl launch --terminate-running-process "$1" "$bundle" -demo -tab "$2" "${@:3}" > /dev/null
   for _ in $(seq 1 60); do [ -f "$marker" ] && break; sleep 0.5; done
   [ -f "$marker" ] || { echo "FAIL: the app did not render the $2 tab within 30 s" >&2; return 1; }
   # The map needs a moment to fetch tiles and the address.
@@ -109,6 +110,12 @@ for tab in "${tabs[@]}"; do
   launch "$phone" "$tab"
   xcrun simctl io "$phone" screenshot "$out/iphone18pro-$tab.png" > /dev/null 2>&1
   echo "  iphone18pro-$tab.png"
+  # The warning tile and the warning sections sit at the end of these tabs.
+  case "$tab" in overview|health)
+    launch "$phone" "$tab" -scroll-bottom
+    xcrun simctl io "$phone" screenshot "$out/iphone18pro-$tab-bottom.png" > /dev/null 2>&1
+    echo "  iphone18pro-$tab-bottom.png" ;;
+  esac
 done
 xcrun simctl ui "$phone" appearance dark
 launch "$phone" overview
